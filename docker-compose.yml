@@ -1,0 +1,89 @@
+# Full-stack local/self-hosted deployment for Pigeon.
+#
+#   1. cp .env.example .env                          # root: compose-level knobs
+#   2. cp pigeon-backend/.env.example pigeon-backend/.env   # fill in real secrets
+#   3. cp pigeon-frontend-next/.env.example pigeon-frontend-next/.env.local
+#   4. cp pigeon-admin-panel/.env.example pigeon-admin-panel/.env.local
+#   5. docker compose up --build
+#
+# Services:
+#   mongo     -> internal only (data persisted in the `mongo_data` volume)
+#   backend   -> http://localhost:8001  (FastAPI, /api/*)
+#   frontend  -> http://localhost:8080  (Next.js marketing site + app)
+#   admin     -> http://localhost:8082  (Next.js admin panel)
+
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    # Not published to the host by default; reachable as `mongo:27017` inside the network.
+
+  backend:
+    build:
+      context: ./pigeon-backend
+    restart: unless-stopped
+    env_file:
+      - path: ./pigeon-backend/.env
+        required: false
+    environment:
+      # Point the app at the compose Mongo service unless the env file overrides it.
+      MONGO_URL: ${MONGO_URL:-mongodb://mongo:27017}
+      DB_NAME: ${DB_NAME:-pigeon_ai}
+      PORT: "8000"
+    ports:
+      - "${BACKEND_PORT:-8001}:8000"
+    depends_on:
+      mongo:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8000/api/health').status==200 else 1)",
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  frontend:
+    build:
+      context: ./pigeon-frontend-next
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8001/api}
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:8080}
+    restart: unless-stopped
+    env_file:
+      - path: ./pigeon-frontend-next/.env.local
+        required: false
+    ports:
+      - "${FRONTEND_PORT:-8080}:3000"
+    depends_on:
+      - backend
+
+  admin:
+    build:
+      context: ./pigeon-admin-panel
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8001/api}
+        NEXT_PUBLIC_MAIN_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:8080}
+    restart: unless-stopped
+    env_file:
+      - path: ./pigeon-admin-panel/.env.local
+        required: false
+    ports:
+      - "${ADMIN_PORT:-8082}:3000"
+    depends_on:
+      - backend
+
+volumes:
+  mongo_data:

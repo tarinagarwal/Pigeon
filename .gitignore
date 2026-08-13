@@ -1,0 +1,57 @@
+# ---- Secrets & environment ----
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+service-account*.json
+gcp-*.json
+
+# ---- Node / Next.js ----
+node_modules/
+.next/
+out/
+build/
+.vercel
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.agent_venv/
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+*.egg-info/
+dist/
+
+# ---- Terraform ----
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+tfplan
+crash.*.log
+
+# ---- OS / editor ----
+.DS_Store
+.idea/
+.vscode/
+.qoder/
+*.swp
+*.swo
+
+# ---- Logs ----
+*.log
