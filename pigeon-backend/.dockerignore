@@ -1,0 +1,33 @@
+# Git and IDE
+.git
+.gitignore
+.idea
+.vscode
+*.pyc
+__pycache__
+.pytest_cache
+.mypy_cache
+*.egg-info
+.venv
+venv
+env
+
+# Environment and secrets (never bake into image)
+.env
+.env.*
+*.pem
+*credentials*
+*token*
+
+# Tests and dev
+tests
+*_test.py
+test_*
+pytest.ini
+coverage.xml
+htmlcov
+
+# Docs and misc
+*.md
+*.log
+.DS_Store

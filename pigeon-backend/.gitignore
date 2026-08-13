@@ -1,0 +1,40 @@
+# Environment and secrets
+.env
+.envp
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.venv/
+venv/
+env/
+.env-prod
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Build / packaging
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs and local
+scripts/blog_cloudinary_migration_log.json
+*.log
+*.pem
+.mypy_cache/
