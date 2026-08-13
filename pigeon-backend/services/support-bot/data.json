@@ -1,0 +1,997 @@
+[
+  {
+    "slug": "google-client-id-secret-gmail-setup",
+    "questions": [
+      "How to Set Up Google Client ID and Secret for Gmail",
+      "How do I set up Google Client ID and Secret for Gmail?",
+      "What is Google Client ID and Secret for Gmail?",
+      "Where do I add Google Client ID and Secret?",
+      "How to get Google OAuth credentials for Gmail",
+      "Setup Gmail OAuth client ID secret",
+      "Google Cloud OAuth client ID secret Pigeon",
+      "Connect Gmail with OAuth credentials",
+      "How to create OAuth client ID for Gmail",
+      "Where to paste Client ID and Client Secret in Pigeon",
+      "Gmail OAuth setup",
+      "Google Client ID Secret setup",
+      "Authorized redirect URI for Gmail",
+      "Settings Integrations Gmail OAuth",
+      "How do I connect Gmail using OAuth?"
+    ],
+    "answer": "### How to Set Up Google Client ID and Secret for Gmail\n\nTo connect Gmail in Pigeon using **Google sign-in (OAuth)** instead of app passwords, you need your own **Google Cloud OAuth client** and to add **Client ID** and **Client Secret** in Pigeon. Your plan must allow Gmail (e.g. Premium).\n\n**Step 1: Get credentials from Google Cloud Console**\n1. Go to [Google Cloud Console](https://console.cloud.google.com/).\n2. Create or select a project → **APIs & Services** → **Credentials**.\n3. Click **+ Create Credentials** → **OAuth client ID**.\n4. If prompted, set up the OAuth consent screen (External, app name e.g. Pigeon, support email).\n5. For the client: choose **Web application**, name it (e.g. \"Pigeon Gmail\").\n6. **Important:** Under **Authorized redirect URIs**, **copy the URI from Pigeon** — go to **Settings → Integrations → Gmail**, open the form where you add credentials, and copy the **Authorized redirect URI** shown there. Paste it into Google Cloud (do not type it manually).\n7. Save. Copy the **Client ID** (e.g. `xxxxx.apps.googleusercontent.com`) and **Client Secret** (e.g. `GOCSPX-xxxxx`). The secret is shown only once.\n\n**Step 2: Save in Pigeon**\n1. In Pigeon: **Settings** → **Integrations** → **Gmail**.\n2. Paste **Google Client ID** and **Google Client Secret**.\n3. Click **Save**, then **Connect with Google** to add your Gmail account as an inbox.\n\n**Quick tips:** If you see \"Redirect URI mismatch\", the URI in Google Cloud must match exactly — always copy from Pigeon. If the app isn’t verified, you can choose Advanced → Go to Pigeon to continue during testing."
+  },
+  {
+    "slug": "connect-gmail-app-password-without-oauth",
+    "questions": [
+      "How to Connect Gmail with an App Password (Without OAuth)",
+      "How do I connect Gmail without OAuth?",
+      "Connect Gmail using App Password",
+      "What is App Password for Gmail?",
+      "How to use App Password to connect Gmail",
+      "Gmail App Password setup",
+      "Connect via App Password Pigeon",
+      "2-Step Verification App Password Gmail",
+      "Where do I enter App Password for Gmail?",
+      "How to generate Google App Password",
+      "Gmail without OAuth",
+      "Add Gmail with App Password",
+      "Settings Integrations Gmail App Password",
+      "Invalid credentials Gmail App Password",
+      "16 character App Password Gmail"
+    ],
+    "answer": "### How to Connect Gmail with an App Password (Without OAuth)\n\nYou can connect Gmail to Pigeon using a **Google App Password** — a 16-character password from Google that lets Pigeon send and receive email without your main Gmail password. Your plan must allow Gmail; add accounts from **Settings → Integrations → Gmail**.\n\n**Before you start**\n- Your Gmail account must have **2-Step Verification** turned on (Google only issues App Passwords for accounts with 2-Step Verification).\n- Generate the App Password from your Google Account, not from Pigeon.\n\n**Step 1: Turn on 2-Step Verification (if needed)**\n1. Go to [Google Account](https://myaccount.google.com/) → **Security**.\n2. Under \"How you sign in to Google,\" open **2-Step Verification** and follow the steps (phone or authenticator app).\n\n**Step 2: Create an App Password**\n1. **Security** → **2-Step Verification** → scroll to **App passwords**.\n2. Select app **Mail**, device **Other** (e.g. \"Pigeon\").\n3. Click **Generate**. Copy the 16-character password (spaces optional); you won’t see it again.\n\n**Step 3: Add Gmail in Pigeon**\n1. Pigeon → **Settings** → **Integrations** → **Gmail**.\n2. Click **Connect via App Password**.\n3. Enter your **Gmail address** and paste the **App Password**.\n4. Click **Connect**. The account appears under **Inbox Accounts** and in Settings → Integrations → Gmail.\n\n**Troubleshooting:** \"Invalid credentials\" usually means 2-Step Verification is off or you used your normal password — use the App Password only. If \"App passwords\" is missing, enable 2-Step Verification first."
+  },
+  {
+    "slug": "add-verify-sending-domain-pigeon",
+    "questions": [
+      "How to Add and Verify Your Sending Domain in Pigeon",
+      "How do I add and verify my sending domain?",
+      "Add domain Pigeon",
+      "Verify sending domain",
+      "How to verify domain in Pigeon",
+      "DNS records SPF DKIM domain",
+      "Where do I add my domain?",
+      "Domain verification steps",
+      "Add DNS records for domain",
+      "Domains sidebar add domain",
+      "How to send from my own domain",
+      "Verify domain for email sending",
+      "SPF DKIM MX records domain",
+      "Domain verification failed",
+      "Where to add domain in Pigeon?"
+    ],
+    "answer": "### How to Add and Verify Your Sending Domain in Pigeon\n\nTo send from your own domain (e.g. you@yourcompany.com) instead of Gmail, you need to **add and verify** the domain in Pigeon by adding DNS records at your domain provider. Once verified, you can add SMTP inboxes and use them in campaigns. Go to **Domains** in the sidebar to start.\n\n**Step 1: Add your domain**\n1. Click **Domains** in the left sidebar → **Add Domain**.\n2. Enter your domain (e.g. **yourcompany.com**) — no http:// or www.\n3. Save. Pigeon will show the DNS records you need.\n\n**Step 2: Add DNS records**\nYou’ll typically need:\n- **SPF** — TXT record that authorizes Pigeon to send for your domain.\n- **DKIM** — One or more TXT records for authentication.\n- **MX** (if receiving) — So replies reach your inbox.\n\n1. In Domains, select your domain and copy each record (Type, Name/Host, Value).\n2. Log in to your DNS provider (GoDaddy, Cloudflare, Namecheap, etc.) and add each record exactly as shown.\n3. Save. Propagation can take a few minutes up to 48 hours.\n\n**Step 3: Verify**\n1. Back in Pigeon → **Domains** → select your domain → **Verify**.\n2. If it fails, check that every record matches exactly (no extra spaces) and wait for propagation.\n\n**After verification:** Add **Inbox Accounts** (SMTP) for addresses on this domain and choose **SMTP** when creating campaigns."
+  },
+  {
+    "slug": "set-up-reply-to-imap-campaign-replies",
+    "questions": [
+      "How to Set Up Reply-To (IMAP) for Campaign Replies",
+      "How do I set up reply-to for campaigns?",
+      "Reply-To IMAP setup",
+      "Where do campaign replies go?",
+      "Set default reply-to address",
+      "Campaign replies IMAP config",
+      "How to get campaign replies in Inbox",
+      "Reply-To Gmail or IMAP",
+      "Settings Integrations Reply-To",
+      "Add Reply-To IMAP config",
+      "Where to set reply-to for campaigns?",
+      "Replies not showing Inbox",
+      "Reply-to address campaign",
+      "IMAP for campaign replies"
+    ],
+    "answer": "### How to Set Up Reply-To (IMAP) for Campaign Replies\n\n**Reply-To** controls where replies to your campaign emails go. You can send them to a specific Gmail or IMAP mailbox that Pigeon monitors, so replies show up in the **Inbox** tab. Set this in **Settings → Integrations**.\n\n**Step 1: Set default reply-to**\n1. Go to **Settings** → **Integrations** → find **Reply-To** or **Campaign replies**.\n2. Choose **Use sending inbox** (replies to the sender) or **Specific Gmail / IMAP**.\n3. For Gmail: pick the connected account from the dropdown.\n4. For a custom domain mailbox: add an **IMAP** config first (see below), then select it.\n5. Save. You can override this per campaign when creating or editing it.\n\n**Step 2: Add Reply-To IMAP (optional)**\nIf replies go to an address not connected as Gmail (e.g. support@yourdomain.com):\n1. In **Settings → Integrations**, find **Reply-To IMAP** or **IMAP configs**.\n2. Click **Add** / **Add IMAP account**.\n3. Enter **Email**, **IMAP host** (e.g. imap.yourprovider.com), **Port** (usually 993), **Username**, **Password** (or app password).\n4. Save. Pigeon tests the connection. Then you can select this mailbox as reply-to so replies appear in the Inbox.\n\n**Per campaign:** When creating/editing a campaign, look for **Reply-To** or **Reply to address** and set a different address if needed.\n\n**Troubleshooting:** If replies don’t show, ensure the reply-to address is one Pigeon can read (Gmail connected or IMAP added) and that the campaign uses that reply-to. IMAP failed? Check host, port, username, and password; many providers need an app password."
+  },
+  {
+    "slug": "add-smtp-inbox-accounts-domain",
+    "questions": [
+      "How to Add SMTP Inbox Accounts for Your Domain",
+      "How do I add SMTP inbox accounts?",
+      "Add SMTP inbox for domain",
+      "SMTP inbox setup Pigeon",
+      "Where do I add SMTP inbox?",
+      "Inbox Accounts SMTP domain",
+      "Add SMTP after domain verified",
+      "SMTP host port username password",
+      "Send from own domain SMTP",
+      "How to add domain inbox",
+      "SMTP credentials Pigeon",
+      "Inbox Accounts add SMTP",
+      "SMTP connection failed",
+      "Domain not in list SMTP"
+    ],
+    "answer": "### How to Add SMTP Inbox Accounts for Your Domain\n\nSMTP inboxes let you send campaigns from your own domain (e.g. sales@yourcompany.com). You add them **after** your domain is **verified** in **Domains**. Each SMTP inbox uses credentials from your email provider (SendGrid, your host, etc.).\n\n**Before you start**\n- Verify your domain in **Domains** (DNS records + Verify).\n- Have SMTP details ready: host, port, username, password (or API key). Your provider’s docs or support can give these.\n\n**Step 1: Open Inbox Accounts**\n1. Click **Inbox Accounts** in the sidebar → **Add Inbox** or **New inbox**.\n\n**Step 2: Choose SMTP and domain**\n1. Select **SMTP** or **Domain inbox** (not Gmail).\n2. Select your **verified domain**. Only verified domains appear.\n3. Enter the **email address** for this inbox (e.g. sales@yourcompany.com) on that domain.\n\n**Step 3: Enter SMTP credentials**\n1. **SMTP host** (e.g. smtp.sendgrid.net or mail.yourprovider.com).\n2. **Port** (often 587 for TLS or 465 for SSL).\n3. **Username** and **password** (or API key).\n4. Use **Test connection** / **Verify** if available, then Save.\n\nThe new inbox appears in **Inbox Accounts** with status like **Warming** or **Ready**. In **Campaigns**, choose **SMTP** as sender and select this inbox.\n\n**Troubleshooting:** Domain not in list → verify in Domains and refresh. Connection failed → check host, port, username, password and TLS/SSL. New SMTP inboxes may need warmup before full sending — check the Warmup section."
+  },
+  {
+    "slug": "add-first-gmail-smtp-inbox",
+    "questions": [
+      "How to Add Your First Gmail or SMTP Inbox",
+      "How do I add my first inbox?",
+      "Add first Gmail inbox",
+      "Add first SMTP inbox",
+      "How to add sending inbox",
+      "First inbox setup",
+      "Connect first Gmail or add SMTP",
+      "Where do I add an inbox?",
+      "Inbox Accounts add first",
+      "Need inbox before campaign",
+      "Add Gmail or SMTP inbox",
+      "How to connect first email account"
+    ],
+    "answer": "### How to Add Your First Gmail or SMTP Inbox\n\nPigeon sends campaigns from **inboxes** — either Gmail or SMTP (domain) accounts. You need at least one inbox before you can run a campaign. Gmail is quick to set up; SMTP is for sending from your own domain (e.g. sales@yourcompany.com).\n\n**Option A: Add your first Gmail inbox**\n1. Go to **Settings** (sidebar) → **Integrations** tab → **Gmail**.\n2. **Connect with Google (OAuth)** — Requires Client ID and Secret set first; then click Connect with Google and sign in in the browser.\n3. **Or Connect via App Password** — Turn on 2-Step Verification in Google Account, create an App Password, then in Pigeon enter Gmail address + App Password and click Connect.\n4. The account appears under **Inbox Accounts**. You can add more within your plan limit.\n\n**Option B: Add your first SMTP inbox**\n1. **Verify your domain** first: **Domains** → add domain, add DNS records at your provider, click **Verify**.\n2. **Inbox Accounts** → **Add Inbox** or **New** → choose **SMTP** / **Domain inbox**.\n3. Select your verified domain, enter the email (e.g. hello@yourcompany.com).\n4. Enter SMTP credentials (host, port, username, password). Use **Test connection** if available → Save.\n\nThe inbox appears in **Inbox Accounts**; for new SMTP inboxes consider **Warmup** (if on your plan) before large volume."
+  },
+  {
+    "slug": "manage-inbox-accounts-warmup-status",
+    "questions": [
+      "How to Manage Inbox Accounts and See Warmup Status",
+      "How do I manage inbox accounts?",
+      "View inbox list and status",
+      "Inbox Accounts warmup status",
+      "Where do I see inbox status?",
+      "Manage Gmail SMTP inboxes",
+      "Warmup progress per inbox",
+      "Inbox Accounts sidebar",
+      "Change inbox settings",
+      "Remove or disconnect inbox",
+      "Sent today per inbox",
+      "View all inboxes",
+      "Pause resume warmup inbox"
+    ],
+    "answer": "### How to Manage Inbox Accounts and See Warmup Status\n\nAll your sending inboxes (Gmail and SMTP) are in **Inbox Accounts** in the sidebar. From there you can see each inbox’s email, type, status, warmup progress, daily send count, and manage or remove them.\n\n**What you see for each inbox**\n- **Email** — Sending address.\n- **Type** — Gmail or SMTP.\n- **Status** — Ready, Warming, Paused, Warm up required, or Warning.\n- **Warmup** — Progress % or \"Warmed\".\n- **Sent today** — Emails sent from that inbox today (for daily limits).\n\nUse this to decide which inboxes to use in a campaign and whether any need warmup first.\n\n**Changing settings**\n- In **Inbox Accounts**, find the inbox → **Settings**, **Edit**, or gear icon.\n- You can change labels, pause/resume warmup, or update credentials. Gmail accounts are usually managed from **Settings → Integrations → Gmail** (disconnect or add).\n\n**Removing an inbox**\n- Find the inbox → **Delete**, **Remove**, or **Disconnect** (for Gmail, often in Settings → Integrations → Gmail).\n- Confirm. It won’t appear in new campaigns; existing campaigns that used it may need updating.\n\nFor more detail on warmup, use **Warmup** in the sidebar for timelines and per-inbox control."
+  },
+  {
+    "slug": "understanding-inbox-status-ready-warming-warmup-required",
+    "questions": [
+      "Understanding Inbox Status: Ready, Warming, and Warm Up Required",
+      "What does Ready Warming Warm up required mean?",
+      "Inbox status meanings",
+      "When can I use my inbox for campaigns?",
+      "Ready vs Warming vs Warm up required",
+      "What is inbox status?",
+      "Inbox Warning status",
+      "When is inbox ready to send?",
+      "Warm up required what to do",
+      "Understanding inbox status",
+      "Safe to send inbox status"
+    ],
+    "answer": "### Understanding Inbox Status: Ready, Warming, and Warm Up Required\n\nEach sending inbox has a **status** that tells you whether it’s safe to use for campaigns and how much you can send. Sending too much from a new or cold inbox can hurt deliverability. Check status in **Inbox Accounts** and **Warmup**.\n\n**What each status means**\n- **Ready** — Inbox is warmed or doesn’t need warmup. Use it in campaigns up to your plan and daily limits. Ideal for sending.\n- **Warming** — Warmup in progress. You can often use it at a reduced rate; check the Warmup page for limits. Sending more than the curve can hurt reputation.\n- **Warm up required** — Inbox is new or warmup not started. Start warmup from the **Warmup** page before full campaigns. Full volume from this state is risky.\n- **Warning** — Warmup below a safe threshold. Consider pausing campaigns using this inbox or increasing warmup.\n- **Paused** — Warmup or sending paused. Resume from Warmup or inbox settings when ready.\n\n**Where you see it**\n- **Inbox Accounts** — Status badge on each inbox.\n- **Warmup** — Timeline and per-inbox progress; start, pause, resume.\n- **Campaigns** — Warnings when selecting inboxes that aren’t ready.\n\n**What to do:** Ready → use normally. Warming → stay within suggested limits. Warm up required → start warmup first. Warning → improve warmup or reduce sending."
+  },
+  {
+    "slug": "what-is-email-warmup-how-to-use-pigeon",
+    "questions": [
+      "What Is Email Warmup and How to Use It in Pigeon",
+      "What is email warmup?",
+      "How does email warmup work?",
+      "How to use warmup in Pigeon",
+      "Why warmup inbox",
+      "Start warmup new inbox",
+      "Warmup page Pigeon",
+      "Email warmup build reputation",
+      "When to use warmup",
+      "Warmup deliverability",
+      "How to start warmup"
+    ],
+    "answer": "### What Is Email Warmup and How to Use It in Pigeon\n\n**Email warmup** is gradually increasing how much you send from a new or unused inbox so providers (Gmail, Outlook, etc.) learn to trust it. Sending a lot right away can get mail flagged as spam. Warmup sends a controlled amount (often to internal or partner addresses) and builds a positive pattern so your real campaigns land in the inbox.\n\n**In Pigeon** (on supported plans) the **Warmup** feature warms Gmail and SMTP inboxes before you use them. The **Warmup** page in the sidebar shows which inboxes are warming, their progress, and lets you start, pause, or resume warmup.\n\n**How to use it**\n1. Go to **Warmup** in the sidebar.\n2. You’ll see inboxes and their state: not started, warming, paused, or complete.\n3. For **Warm up required** or **Start warmup**: click **Start** or **Enable warmup** for that inbox.\n4. Progress appears on the Warmup page and in **Inbox Accounts**. When status becomes **Ready** or **Warming** (within limits), you can use it in campaigns.\n5. **Pause** from the Warmup page or inbox settings; **Resume** when you’re ready.\n\n**Best practices:** Start warmup for new inboxes before campaigns. Don’t send large volume from \"Warm up required\" or early \"Warming\". Use recommended send limits for warming inboxes. Keep warmup running until Ready for best deliverability."
+  },
+  {
+    "slug": "start-pause-resume-warmup-inboxes",
+    "questions": [
+      "How to Start, Pause, or Resume Warmup for Your Inboxes",
+      "How do I start warmup?",
+      "How do I pause warmup?",
+      "How do I resume warmup?",
+      "Start pause resume warmup",
+      "Warmup page start inbox",
+      "Pause warmup inbox",
+      "Resume warmup after pause",
+      "Control warmup per inbox",
+      "Where to start warmup?",
+      "Enable warmup inbox"
+    ],
+    "answer": "### How to Start, Pause, or Resume Warmup for Your Inboxes\n\nYou control warmup from the **Warmup** page in the sidebar. It lists your inboxes (Gmail and SMTP) with each one’s warmup state and progress, and you can turn warmup on or off per inbox.\n\n**Start warmup**\n1. Go to **Warmup** in the sidebar.\n2. Find the inbox that shows **Warm up required**, **Not started**, or **Start warmup**.\n3. Click **Start**, **Enable warmup**, or the equivalent for that inbox.\n4. Warmup begins. Status in **Inbox Accounts** may change to **Warming**, and the Warmup page shows progress (timeline or %).\n\n**Pause warmup**\n1. Go to **Warmup** → find the inbox that is **Warming**.\n2. Click **Pause** (or **Pause warmup**) for that inbox.\n3. Warmup stops; the inbox may show **Paused**. You can resume later.\n\n**Resume warmup**\n1. Go to **Warmup** → find the inbox with **Paused** or **Resume warmup**.\n2. Click **Resume** (or **Resume warmup**).\n3. Warmup continues from where it left off; progress updates on the Warmup page and in Inbox Accounts.\n\n**Note:** Pigeon sends a controlled volume from that inbox over time. You don’t need to run campaigns during warmup. When the inbox reaches the target level, status in **Inbox Accounts** becomes **Ready** and you can use it for campaigns."
+  },
+  {
+    "slug": "check-warmup-progress-when-inbox-ready",
+    "questions": [
+      "How to Check Warmup Progress and When Your Inbox Is Ready",
+      "How do I check warmup progress?",
+      "When is my inbox ready?",
+      "Warmup progress percentage",
+      "Where do I see warmup progress?",
+      "Inbox ready for campaigns",
+      "Warmup page progress",
+      "Inbox Accounts warmup percentage",
+      "When can I send from inbox?",
+      "Warmup complete ready"
+    ],
+    "answer": "### How to Check Warmup Progress and When Your Inbox Is Ready\n\nWarmup progress is in two places: the **Warmup** page (sidebar) and **Inbox Accounts**. The Warmup page has the timeline and per-inbox progress; Inbox Accounts shows a short status and often a percentage or \"Warmed\" per inbox.\n\n**On the Warmup page**\n1. Go to **Warmup** in the sidebar.\n2. For each inbox with warmup enabled you’ll see **Progress** (e.g. % or progress bar), **Timeline** (sending over time), and **Status** (Warming, Paused, Complete/Ready).\n3. When progress hits the target (e.g. 100% or your plan’s threshold), the inbox is ready and its status in **Inbox Accounts** usually changes to **Ready**.\n\n**On Inbox Accounts**\n- Each inbox has a **status** badge (Ready, Warming, Warm up required, Warning, Paused) and often a **warmup** value (e.g. \"65% warmed\" or \"Warmed\").\n- **Ready** (and sometimes a high %) = you can use it for campaigns within plan limits. **Warming** = use only within the suggested warmup limits.\n\n**When is my inbox ready?**\n- **Ready** — Safe for full campaign volume (within daily and plan limits).\n- **Warming** with high % — Often OK at reduced volume; check in-app notes for limits.\n- **Warm up required** or **Warning** — Not ready; keep warmup running or fix the issue before sending campaigns."
+  },
+  {
+    "slug": "import-contacts-csv-excel",
+    "questions": [
+      "How to Import Contacts from CSV or Excel",
+      "How do I import contacts from CSV?",
+      "Import contacts Excel",
+      "Upload CSV contacts",
+      "Contacts Import",
+      "Where do I import contacts?",
+      "Import contacts file",
+      "CSV Excel import contacts",
+      "Map columns when importing",
+      "Add contacts from file",
+      "Contacts sidebar Import",
+      "Import contacts to list"
+    ],
+    "answer": "### How to Import Contacts from CSV or Excel\n\nCampaigns are sent to **contact lists**. You can build those lists by importing from a CSV or Excel file (e.g. from your CRM or a spreadsheet). Go to **Contacts** in the sidebar, then **Import** to upload and map columns.\n\n**Step 1: Prepare your file**\n- One row per contact; columns for email and any other fields (first name, last name, company, etc.).\n- **Email** is required; others optional. Formats: **.csv**, **.xlsx**, **.xls**. Max size usually **10 MB**.\n- Need a template? Use **Contacts → Import** and download the **example CSV** from the import page.\n\n**Step 2: Start the import**\n1. **Contacts** (sidebar) → **Import** (or **Import contacts**).\n2. **Upload file** — select your CSV or Excel file or drag and drop. The app reads the first rows and shows detected columns.\n\n**Step 3: Map columns**\n- Match your file’s column headers to Pigeon fields (Email, First name, Last name, Company, Industry, Location). **Email** must be mapped.\n- Choose **Add to existing list** or **Create new list** (and name it).\n\n**Step 4: Save and review**\n- Click **Import** or **Save**. Pigeon processes the file and adds contacts to the chosen list.\n- Check the summary (how many imported, any errors). Fix issues (e.g. invalid emails) in your file and re-import if needed.\n- The list appears under **Contacts** and can be selected when creating a campaign."
+  },
+  {
+    "slug": "map-columns-when-importing-contacts",
+    "questions": [
+      "How to Map Columns When Importing Contacts",
+      "How do I map columns when importing?",
+      "Column mapping import contacts",
+      "Map file columns to Pigeon fields",
+      "Email First name Company mapping",
+      "Import mapping step",
+      "Which column is email?",
+      "Map columns CSV import",
+      "Pigeon contact fields mapping"
+    ],
+    "answer": "### How to Map Columns When Importing Contacts\n\n**Column mapping** tells Pigeon which column in your file is which contact field (Email, First name, Company, etc.). Your file might use \"Email Address\" or \"E-mail\"; mapping links that to Pigeon’s **Email** field so imports work correctly.\n\n**Where it happens**\n- After you upload a file in **Contacts → Import**, you get a **mapping** step with your file’s column names and a dropdown of Pigeon fields for each.\n\n**Pigeon fields you can map**\n- **Email** (required) — The contact’s email.\n- **First name**, **Last name**, **Company**, **Industry**, **Location** — Optional; map only if your file has them.\n\n**How to map**\n1. For **Email**, choose the column with email addresses (e.g. \"Email\", \"E-mail\", \"Email Address\"). Required.\n2. For **First name**, **Last name**, **Company**, etc., select the matching column or leave unmapped.\n3. Columns that don’t match any field stay unmapped and won’t be imported.\n4. Double-check Email — wrong mapping can cause failed imports or bad data.\n5. Continue to the next step (choose list, then Import).\n\n**Tips:** Use the **example CSV** on the import page for recommended headers. Ensure the first row is column names, not data. Don’t map the same file column to more than one Pigeon field."
+  },
+  {
+    "slug": "create-manage-contact-lists",
+    "questions": [
+      "How to Create and Manage Contact Lists",
+      "How do I create a contact list?",
+      "How do I manage contact lists?",
+      "Create contact list",
+      "Contact lists management",
+      "Where do I see contact lists?",
+      "Rename delete contact list",
+      "Add contacts to list",
+      "Create list from import",
+      "Choose list for campaign",
+      "Contacts lists"
+    ],
+    "answer": "### How to Create and Manage Contact Lists\n\n**Contact lists** are the groups you send campaigns to. When you create a campaign, you pick one or more contact lists as the audience. You create lists by importing (Contacts → Import) or over time; you can have multiple lists for different campaigns.\n\n**Where to see and manage lists**\n1. Go to **Contacts** in the sidebar.\n2. You’ll see **All Contacts** or a list of **Contact lists** (e.g. \"Q1 Leads\", \"Newsletter\") with names and contact counts.\n3. Click a list to view or edit contacts, or use options to rename, delete, or duplicate (if your plan allows).\n\n**Creating a new list**\n- **By import:** Contacts → Import → upload file, map columns → when asked, choose **Create new list** and name it (e.g. \"Webinar signups\") → complete import. The list appears under Contacts.\n- **Empty list (if supported):** Some plans let you create an empty list from Contacts and add contacts later (import or manual). Look for **New list** or **Create list**.\n\n**Managing lists**\n- **Rename** — Open the list or use the list menu → Rename.\n- **Add contacts** — Import another file and choose \"Add to existing list\" and this list; or add manually if available.\n- **Remove contacts** — Edit the list and remove/delete contacts, or use filters/segments if available.\n- **Delete list** — Use Delete/Remove list from the list menu. This can affect campaigns using it; update those if needed.\n- **Duplicate** — If available, duplicate to create a copy with a new name.\n\nWhen creating a campaign (**Campaigns** → New or Edit), select one or more **contact lists** as the audience."
+  },
+  {
+    "slug": "manually-block-unblock-contacts",
+    "questions": [
+      "How to Manually Block or Unblock Contacts",
+      "How do I block a contact?",
+      "How do I unblock a contact?",
+      "Block contact from campaigns",
+      "Unblock contact",
+      "Manual Block Unblock",
+      "Where do I block contacts?",
+      "Contacts block list",
+      "Stop sending to contact",
+      "Block unblock email"
+    ],
+    "answer": "### How to Manually Block or Unblock Contacts\n\nYou can **block** a contact so they never get campaigns from you (e.g. unsubscribes, invalid addresses, or people who asked to be removed). **Unblocking** adds them back so they can receive campaigns again. Pigeon has **Manual Block / Unblock** under **Contacts** for this.\n\n**Where to do it**\n1. Go to **Contacts** in the sidebar.\n2. Open **Manual Block / Unblock** (may be under a submenu or tab under Contacts).\n3. You’ll see options to block or unblock, often by entering an email or choosing from a list.\n\n**Block a contact**\n1. In **Contacts → Manual Block / Unblock**, find the **Block** section or form.\n2. Enter the contact’s **email** (or select from a list if the UI allows).\n3. Confirm or click **Block**. They’re added to the block list and won’t receive future campaigns (and may be excluded from existing ones depending on how sends are processed).\n\n**Unblock a contact**\n1. In **Contacts → Manual Block / Unblock**, find the **Unblock** section or list of blocked contacts.\n2. Find the contact (e.g. by email) in the blocked list.\n3. Click **Unblock** or **Remove from block list**. They can receive campaigns again if they’re in a list you use.\n\nThe Manual Block / Unblock page usually shows currently blocked emails so you can review and unblock as needed."
+  },
+  {
+    "slug": "use-verified-leads-pro",
+    "questions": [
+      "How to Use Verified Leads (Pro)",
+      "What are Verified Leads?",
+      "Verified Leads Pro",
+      "How to use verified leads",
+      "Contacts verified emails",
+      "Verified leads view",
+      "Target verified leads campaigns",
+      "Verified Leads under Contacts"
+    ],
+    "answer": "### How to Use Verified Leads (Pro)\n\n**Verified Leads** is a Pro feature that focuses on contacts whose email addresses have been verified (e.g. double opt-in or verification step). That can improve deliverability and engagement by sending only to valid, engaged addresses. It’s under **Contacts** when your plan includes it.\n\n**Where to find it**\n1. Go to **Contacts** in the sidebar.\n2. Click **Verified Leads** (may be under a submenu like \"Contacts → Verified Leads\").\n3. You’ll see a list or view of contacts marked as verified.\n\n**How it works**\n- Contacts are marked **verified** when they confirm their email (e.g. link in a verification email) or through your verification flow.\n- The Verified Leads view filters or highlights these contacts so you can build lists or segments from them.\n- When creating campaigns, use a contact list that contains only or mostly verified leads for better deliverability.\n\n**Using verified leads in campaigns**\n1. Make sure you have contacts in the verified leads list (from signup or a verification step).\n2. Create a **contact list** that includes your verified leads, or use one built from verified-leads data.\n3. When creating a campaign, select that list as the audience so you’re sending mainly to verified addresses."
+  },
+  {
+    "slug": "create-first-email-template",
+    "questions": [
+      "How to Create Your First Email Template",
+      "How do I create an email template?",
+      "Create first template",
+      "New template Templates",
+      "Email template subject body",
+      "Merge variables template",
+      "Where do I create templates?",
+      "Templates New template",
+      "Template name subject body",
+      "Use template in campaign"
+    ],
+    "answer": "### How to Create Your First Email Template\n\n**Email templates** in Pigeon are reusable designs for campaigns: each has a **subject** and **body** (and optionally a name). You can use **merge variables** (e.g. {{first_name}}, {{company}}) so each recipient gets a personalized message. Create and manage them under **Templates** in the sidebar.\n\n**Step 1: Open Templates**\n1. Click **Templates** in the sidebar → **Template Management** (or main templates list).\n2. Click **New template** or **Create template**.\n\n**Step 2: Name and subject**\n- Give the template a **name** (e.g. \"Cold outreach – intro\") so you can find it later.\n- Enter the **subject line**. You can use merge variables here too (e.g. \"Hi {{first_name}}, quick question\").\n\n**Step 3: Write the body**\n- In the **body** editor, write your email. Use **merge variables** where you want personalization: {{first_name}}, {{last_name}}, {{company}}, {{email}}, etc. They’re replaced with the contact’s data when the campaign runs.\n- Add an **unsubscribe** line for compliance (e.g. \"Unsubscribe: {{insert-unsubscribe-link-here}}\" or the placeholder your plan uses — check Compliance settings and Template Guide).\n- Save the template.\n\n**Step 4: Use in a campaign**\n- **Campaigns** → **New campaign** (or edit one) → in the email sequence step, add an email and select this template. Merge variables are filled from the contact list you choose.\n\n**Tips:** Use **Templates → Template Guide** and **Template Examples** for merge variables and best practices. Avoid spammy words (check **Settings → Compliance**). Test with a small list or test send if your plan allows."
+  },
+  {
+    "slug": "use-merge-variables-first-name-company",
+    "questions": [
+      "How to Use Merge Variables (first_name, company)",
+      "What are merge variables?",
+      "How do I use first_name company?",
+      "Merge variables template",
+      "{{first_name}} {{company}}",
+      "Personalization merge variables",
+      "Template merge variables list",
+      "Where do merge variables come from?",
+      "first_name last_name company template"
+    ],
+    "answer": "### How to Use Merge Variables (first_name, company)\n\n**Merge variables** are placeholders in templates that are replaced with each contact’s data when the campaign runs. For example, {{first_name}} becomes \"John\" for one contact and \"Jane\" for another. That personalization improves opens and replies. Available variables depend on the **contact list** you use — they come from that list’s fields (e.g. from your import or CRM).\n\n**Common merge variables**\n- **{{first_name}}** — First name\n- **{{last_name}}** — Last name\n- **{{email}}** — Email address\n- **{{company}}** — Company name\n- **{{industry}}**, **{{location}}** — If you have these fields\n\nYour list may have more custom fields; **Templates → Template Guide** or **Template Prompts** list the exact variables for the list you use in a campaign.\n\n**Where to use them**\n- **Subject:** e.g. \"Hi {{first_name}}, one question about {{company}}\".\n- **Body:** e.g. \"Hi {{first_name}},\" or \"I saw that {{company}} is in {{industry}}.\"\n- Only use variables that exist on your contact list; missing fields may show blank or a default.\n\n**How to insert**\n- When editing a template (**Templates** → select or New), type the variable in double curly braces: {{first_name}}, {{company}}, etc.\n- Or use the editor’s insert/list option for available merge variables.\n\n**Spintax (optional):** Some plans support {Option A|Option B|Option C} for random variation per email. Check the Template Guide for syntax."
+  },
+  {
+    "slug": "use-template-guide-and-examples",
+    "questions": [
+      "How to Use the Template Guide and Examples",
+      "Where is the Template Guide?",
+      "Template Guide Template Examples",
+      "Merge variables compliance guide",
+      "Copy sample templates",
+      "Template Examples",
+      "Template Guide merge variables unsubscribe",
+      "Sample templates copy"
+    ],
+    "answer": "### How to Use the Template Guide and Examples\n\nPigeon provides a **Template Guide** and **Template Examples** under **Templates** to help you write better emails and use the right merge variables and placeholders. The Guide explains how templates work; the Examples are samples you can copy or adapt.\n\n**Where to find them**\n1. Click **Templates** in the sidebar.\n2. You’ll see **Template Management**, **Template Guide**, **Template Examples**, **Template Prompts**.\n3. Open **Template Guide** for docs and **Template Examples** for sample emails.\n\n**Using the Template Guide**\n- **Merge variables** — What you can use (e.g. {{first_name}}, {{company}}) and where they come from (your contact list fields).\n- **Unsubscribe** — How to add the unsubscribe link placeholder (e.g. {{insert-unsubscribe-link-here}} or your plan’s exact string).\n- **Spintax** — If supported, how to use {Option A|Option B} for random variation.\n- **Compliance** — Spam words, link limits, image limits from Settings → Compliance.\n- **Best practices** — Subject lines, body length, avoiding spam filters.\n\nUse the Guide when creating or editing a template so you use the correct syntax and stay compliant.\n\n**Using Template Examples**\n- **Template Examples** has pre-written templates (e.g. cold outreach, follow-up, newsletter).\n- **Copy** an example into a new template, then edit subject, body, and variables for your campaign.\n- Examples often include merge variables and an unsubscribe line; adjust them to your list and compliance settings.\n\n**Template Prompts** (if available) can give prompt ideas for **AI Campaign Studio** when generating templates."
+  },
+  {
+    "slug": "add-unsubscribe-link-compliance",
+    "questions": [
+      "How to Add an Unsubscribe Link for Compliance",
+      "How do I add unsubscribe link?",
+      "Unsubscribe link template",
+      "Require unsubscribe compliance",
+      "Unsubscribe placeholder template",
+      "Settings Compliance unsubscribe",
+      "CAN-SPAM unsubscribe",
+      "Where to put unsubscribe link?",
+      "insert-unsubscribe-link-here"
+    ],
+    "answer": "### How to Add an Unsubscribe Link for Compliance\n\nAn **unsubscribe** option is required for compliance (e.g. CAN-SPAM, GDPR) and helps reduce spam complaints. Pigeon lets you add an **unsubscribe link** placeholder in templates; when the campaign runs, it’s replaced with a real link so contacts can opt out. You can also enforce this in **Settings → Compliance**.\n\n**Add the placeholder in your template**\n1. Go to **Templates** → create or edit a template.\n2. In the **body**, add a line such as:\n   - \"Unsubscribe: {{insert-unsubscribe-link-here}}\" or\n   - \"To stop receiving these emails, unsubscribe here: {{insert-unsubscribe-link-here}}\"\n3. The exact placeholder may vary by plan; check **Templates → Template Guide** (e.g. {{unsubscribe_url}} or {{insert-unsubscribe-link-here}}).\n4. Save. When you use this template in a campaign, Pigeon replaces the placeholder with the working unsubscribe link.\n\n**Enable \"require unsubscribe\" in Compliance**\n1. **Settings** (sidebar) → **Compliance** tab.\n2. Find **Require unsubscribe link** (or similar) and turn it **on** so templates or campaigns without an unsubscribe link are blocked or warned.\n3. Save.\n\n**Where to place the link**\n- Usually at the **bottom** of the email (e.g. after your signature).\n- Use clear wording: \"Unsubscribe\", \"Manage preferences\", or \"Stop receiving these emails\" with the link.\n- One unsubscribe link per email is usually enough; don’t hide it or use tiny font."
+  },
+  {
+    "slug": "create-first-campaign-pigeon",
+    "questions": [
+      "How to Create Your First Campaign in Pigeon",
+      "How do I create my first campaign?",
+      "Create first campaign",
+      "New campaign setup",
+      "Campaign contact list templates inboxes",
+      "Launch campaign",
+      "Campaigns New campaign",
+      "Steps to create campaign",
+      "What do I need before campaign?",
+      "Campaign name list sequence launch"
+    ],
+    "answer": "### How to Create Your First Campaign in Pigeon\n\nA **campaign** in Pigeon is an outreach sequence: you choose a **contact list**, one or more **email templates** (with delays between steps), and **sending inboxes** (Gmail or SMTP). Pigeon sends according to your schedule and daily limits. Create campaigns from **Campaigns** in the sidebar.\n\n**Before you start**\n- At least one **contact list** with contacts (Contacts → Import or create list).\n- At least one **email template** (Templates → create with subject, body, merge variables, unsubscribe).\n- At least one **inbox** ready (Gmail or SMTP in Inbox Accounts, status Ready or within warmup limits).\n\n**Step 1: New campaign** — **Campaigns** → **New campaign** or **Create campaign**.\n\n**Step 2: Info and audience** — Campaign name (e.g. \"Q1 cold outreach\"), select **contact list**, set **timezone**.\n\n**Step 3: Sender** — Choose **Gmail** or **SMTP**, select one or more **inboxes** (must be Ready or allowed). Optionally set **sender rotation** (e.g. round-robin) if you have multiple inboxes.\n\n**Step 4: Email sequence** — Add one or more **steps**. For each step: select a **template** and set a **delay** (e.g. 0 days for the first, 2 days for the second). The first email goes when the campaign runs; follow-ups go after the delay.\n\n**Step 5: Schedule and limits** — **Daily limit** (e.g. 50/day), **send time window** (e.g. 9:00–17:00). Optionally set **reply-to** (default from Settings or a specific Gmail/IMAP).\n\n**Step 6: Launch** — Review and click **Launch** or **Start campaign**. Monitor under **Campaigns** (sent count, replies) and **Inbox** for replies."
+  },
+  {
+    "slug": "choose-gmail-vs-smtp-select-sending-inboxes",
+    "questions": [
+      "How to Choose Gmail vs SMTP and Select Sending Inboxes",
+      "Gmail vs SMTP campaign",
+      "How do I choose sender type?",
+      "Select sending inboxes campaign",
+      "Gmail or SMTP for campaign",
+      "Sender rotation multiple inboxes",
+      "Which inboxes to use campaign",
+      "Choose Gmail or SMTP"
+    ],
+    "answer": "### How to Choose Gmail vs SMTP and Select Sending Inboxes\n\nWhen creating or editing a campaign, you choose how to send: **Gmail** (accounts connected in Settings → Integrations) or **SMTP** (domain inboxes added in Inbox Accounts after verifying your domain).\n\n**Gmail** — Quick to set up; good for personal or small-team outreach. Connect via OAuth or App Password in **Settings → Integrations → Gmail**. Each connected account is an inbox you can select in the campaign.\n\n**SMTP** — Send from your own domain (e.g. sales@yourcompany.com). Verify the domain in **Domains** and add SMTP inboxes in **Inbox Accounts**, then select those inboxes when the sender type is SMTP.\n\n**How to choose in a campaign**\n1. **Campaigns** → **New campaign** or **Edit** → find **Sender** or **Sending from**.\n2. Select **Gmail** or **SMTP**:\n   - **Gmail** — List shows all connected Gmail accounts. Select one or more; campaign sends from these (with rotation if multiple).\n   - **SMTP** — You may select a **domain** first, then one or more SMTP inboxes for that domain. Use only **Ready** (or allowed) inboxes.\n3. With multiple inboxes, set **sender rotation** (e.g. round-robin or random) to spread sends.\n\n**Tips:** Use **Ready** inboxes; avoid **Warm up required** or **Warning** unless you stay within warmup limits. For small lists, fewer inboxes can be better for reputation; for large lists, more inboxes help with daily limits. Use **test send** (if available) to confirm the selected inbox works before launch."
+  },
+  {
+    "slug": "set-daily-limits-send-time-windows",
+    "questions": [
+      "How to Set Daily Limits and Send Time Windows",
+      "How do I set daily limit?",
+      "Daily limit campaign",
+      "Send time window",
+      "Set send time 9 to 5",
+      "Campaign daily limit",
+      "Start time end time timezone",
+      "Limit emails per day",
+      "When do emails send?"
+    ],
+    "answer": "### How to Set Daily Limits and Send Time Windows\n\n**Daily limits** cap how many emails a campaign sends per day so you don’t overload inbox reputation or hit provider limits. **Send time windows** (e.g. 9:00–17:00) ensure emails go out only during business hours in the recipient’s timezone, which can improve opens and replies. You set both when creating or editing a campaign.\n\n**Where to set them**\n- **Campaigns** → **New campaign** or **Edit** → find **Schedule**, **Sending**, or **Limits** (often after contact list and inboxes).\n\n**Daily limit**\n- Enter the maximum emails this campaign can send per day (e.g. 50 or 100). The campaign stops for the day once this is reached and continues the next day.\n- This usually applies to the campaign as a whole (across all selected inboxes). Keep it within your plan and warmup recommendations.\n\n**Send time window**\n- **Start time** and **End time** — When emails can be sent (e.g. 09:00 to 17:00). Only contacts whose local time falls in this window receive emails then.\n- **Timezone** — Set the campaign timezone (e.g. America/New_York). Pigeon uses this (and the contact’s timezone if available) to send within the window.\n- Sends are typically spread across the window, not all at once.\n\n**Best practices:** Start with a conservative daily limit (e.g. 30–50) for new inboxes; increase as reputation builds. Use business-hour windows (e.g. 8–18) in the recipient’s region for better engagement."
+  },
+  {
+    "slug": "use-ai-generate-campaign-templates-ai-campaign-studio",
+    "questions": [
+      "How to Use AI to Generate Campaign Templates (AI Campaign Studio)",
+      "How do I use AI Campaign Studio?",
+      "AI generate email templates",
+      "AI Campaign Studio",
+      "Generate template with AI",
+      "Describe email AI generates",
+      "AI template contact list",
+      "Where is AI Campaign Studio?",
+      "AI email template"
+    ],
+    "answer": "### How to Use AI to Generate Campaign Templates (AI Campaign Studio)\n\n**AI Campaign Studio** in Pigeon lets you generate email templates with AI. You describe what you want (e.g. \"cold outreach to SaaS founders\"), pick a contact list (so the AI uses the right merge variables), and the AI suggests subject and body. You can then edit the result and use it in a campaign or save it as a template. Open it from **AI Campaign Studio** in the sidebar.\n\n**Step 1: Open AI Campaign Studio** — Click **AI Campaign Studio** in the sidebar (chat-style or form interface).\n\n**Step 2: Describe and select list** — Enter a **prompt** (e.g. \"Write a short cold email for B2B SaaS founders, focus on time savings\"). Select the **contact list** for this campaign so the AI uses only merge variables that exist on that list (e.g. {{first_name}}, {{company}}). If there’s an **AI provider** option (e.g. OpenAI), choose one configured in Settings → Integrations.\n\n**Step 3: Generate and edit** — Click **Generate** or **Create**. The AI produces a template (name, subject, body) with merge variables and optionally an unsubscribe line. Review and **edit** subject and body; you can change wording, add spintax, or adjust the unsubscribe line to match Compliance. Run **compliance check** (spam words, link count) if offered and fix any issues.\n\n**Step 4: Use the template** — **Save as template** to reuse in any campaign, or **Use in campaign** to start a campaign from AI Campaign Studio with this template and the same list. You can also go to **Campaigns** → New campaign and select the saved template in the sequence.\n\n**Tips:** Use **Templates → Template Prompts** for prompt ideas. Always include an unsubscribe line and stay within Compliance (spam words, links, images). Generate once, then tweak for your brand and list."
+  },
+  {
+    "slug": "run-template-ab-tests-campaign",
+    "questions": [
+      "How to Run Template A/B Tests in a Campaign",
+      "How do I run A/B test in campaign?",
+      "A/B test subject line",
+      "Template A/B testing",
+      "Two variants campaign",
+      "Compare template performance",
+      "A/B test split 50 50",
+      "Add variant campaign step"
+    ],
+    "answer": "### How to Run Template A/B Tests in a Campaign\n\n**A/B testing** in a campaign means sending two (or more) versions of an email (e.g. different subject lines or bodies) to parts of your audience and comparing performance (opens, replies). Pigeon supports this so you can see which template performs better. The exact controls depend on your plan; look for **A/B test** or **Template A/B Testing** when creating or editing a campaign or a sequence step.\n\n**Where to set it up**\n- **Campaigns** → **New campaign** or **Edit** → in the **email sequence** section, when you add or edit a step, look for **A/B test** or **Variants** (e.g. \"Add variant\" or \"Test subject A vs B\"). You may also see A/B under **Get Started** in the \"Template A/B Testing\" section.\n\n**How to run an A/B test**\n1. For the step you want to test, add **two (or more) variants**: e.g. Template A (subject A) and Template B (subject B), or two different templates.\n2. Set the **split** (e.g. 50% / 50%) so part of the audience gets variant A and part gets B.\n3. Launch the campaign. Pigeon sends the variants according to the split.\n4. After sends, check **Analytics** or **Campaign** stats to compare opens, replies, or other metrics for each variant. Use the better-performing variant for future templates.\n\n**Best practices:** Test one thing at a time (e.g. subject only, or body only) so results are clear. Use a large enough audience so the split gives meaningful numbers. Run the test for a set period or until you have enough data, then use the winner for future campaigns."
+  },
+  {
+    "slug": "edit-or-pause-campaign",
+    "questions": [
+      "How to Edit or Pause a Campaign",
+      "How do I edit a campaign?",
+      "How do I pause a campaign?",
+      "How do I resume a campaign?",
+      "Edit campaign",
+      "Pause running campaign",
+      "Resume paused campaign",
+      "Change campaign after launch",
+      "Campaigns edit pause resume"
+    ],
+    "answer": "### How to Edit or Pause a Campaign\n\nYou can **edit** a campaign to change its name, contact list, inboxes, email sequence, daily limit, send times, or reply-to — depending on your plan and whether the campaign has started. Some changes may apply only to future sends.\n\n**Editing**\n1. **Campaigns** (sidebar) → find the campaign → click it or **Edit**.\n2. Change the fields you need (name, list, inboxes, sequence, limits, etc.).\n3. **Save** or **Update**. If the campaign is already running, the UI will indicate whether changes apply to the next batch or only to new campaigns.\n\n**Pausing**\n1. **Campaigns** → find the campaign that is **running** or **active**.\n2. Click **Pause** (or the pause icon/button). Confirm if asked.\n3. The campaign stops sending. Recipients who already got some emails won’t get the remaining steps until you resume.\n\n**Resuming**\n1. In **Campaigns**, find the campaign with status **Paused**.\n2. Click **Resume** (or the play/resume button).\n3. The campaign continues from where it left off (follow-ups go out according to delays and limits).\n\n**What you can change:** Before launch you can usually change everything. After launch you can often still change daily limit, send window, or pause/resume; changing the contact list or sequence might affect only future sends — follow the in-app warnings."
+  },
+  {
+    "slug": "view-manage-campaign-replies-inbox",
+    "questions": [
+      "How to View and Manage Campaign Replies in the Inbox",
+      "Where do I see campaign replies?",
+      "Inbox campaign replies",
+      "View replies Inbox",
+      "Manage campaign replies",
+      "Inbox tab replies",
+      "Mark replies read unread",
+      "Filter campaign replies"
+    ],
+    "answer": "### How to View and Manage Campaign Replies in the Inbox\n\nThe **Inbox** in Pigeon is where you see **replies** to your campaign emails. When a contact replies to a message sent from a campaign, that reply can appear in the Inbox so you can read it, mark it read, and follow up. The Inbox may show an unread count in the sidebar.\n\n**Where to open it** — Click **Inbox** in the sidebar (sometimes \"Inbox\" or \"Campaign replies\"). You’ll see a list of replies (or threads) from contacts, often with name/email, subject, snippet, and date.\n\n**Viewing replies** — Each row is usually one reply (or thread). Click a reply to open and read the full message. You may see which **campaign** and **contact** it’s from and the original email you sent. Mark replies as **read** or **unread** to track what still needs a response.\n\n**Managing replies** — Use **Read / Unread** to prioritize. If the Inbox has **filters** (e.g. by campaign, date), use them to find specific replies. To **reply** to the contact, use your normal email client (Gmail, Outlook) and the reply-to address you set for the campaign. Pigeon’s Inbox is for **viewing** campaign replies in one place; replying is typically done in your mailbox.\n\n**Why replies appear here:** Replies are collected because you connected Gmail or Reply-To IMAP in **Settings → Integrations** and set the campaign’s reply-to to an address Pigeon monitors. Make sure reply-to is set correctly so campaign replies show up in the Inbox."
+  },
+  {
+    "slug": "use-inbox-see-when-contacts-respond",
+    "questions": [
+      "How to Use the Inbox to See When Contacts Respond",
+      "When do contacts respond?",
+      "See when contacts reply",
+      "Inbox new responses",
+      "Reply notifications",
+      "Check Inbox for replies",
+      "Contacts respond campaign",
+      "Settings Notifications reply"
+    ],
+    "answer": "### How to Use the Inbox to See When Contacts Respond\n\nWhen contacts **respond** to your campaign emails, you want to see and answer them quickly. Pigeon’s **Inbox** aggregates those replies in one place so you don’t have to check each sending inbox separately. You can see when someone responded, which campaign and contact they’re from, and then reply from your own email.\n\n**See new responses** — Click **Inbox** in the sidebar (the badge may show an **unread** count). New replies appear in the list (newest first or by date). Each entry usually shows: contact name/email, subject or snippet, campaign name, and time. Open a reply to read the full message and thread (what you sent, what they replied).\n\n**Stay on top of replies** — Turn on **Settings → Notifications** for reply notifications so you get an email or in-app alert when someone responds. After handling a reply, **mark it read** so the unread count stays accurate. Use the Inbox as your single place to see all campaign replies so you can respond in a timely way.\n\n**Replying to contacts** — Pigeon’s Inbox is for **viewing** replies. To **reply** to the contact, use your normal email client (Gmail, Outlook, etc.) and reply to the address that received their message (the reply-to address you set for the campaign). That keeps the thread in your mailbox. If you use **Tickets** or a linked support tool, you may be able to handle conversations there; check your plan and Settings."
+  },
+  {
+    "slug": "read-dashboard-analytics",
+    "questions": [
+      "How to Read Your Dashboard and Analytics",
+      "Where is the Dashboard?",
+      "What does Dashboard show?",
+      "Analytics metrics",
+      "Sent replies campaigns inboxes",
+      "Dashboard overview",
+      "Analytics by campaign inbox",
+      "Metrics open rate reply rate"
+    ],
+    "answer": "### How to Read Your Dashboard and Analytics\n\n**Dashboard** — Usually the first page after login; high-level overview. Open from **Dashboard** in the sidebar.\n\n**What the Dashboard shows**\n- **Sent** — Emails sent today or this period.\n- **Replies** — Number of replies (or unread replies).\n- **Campaigns** — Active or recent campaigns and their status.\n- **Inboxes** — Quick view of inbox status (Ready, Warming, etc.) or warmup progress.\n- **Alerts** — Deliverability or system alerts you should act on.\n\nUse the Dashboard to see at a glance whether everything is running and whether you need to check Inbox, Campaigns, or Alerts.\n\n**Analytics** — Deeper metrics. Open from **Analytics** in the sidebar.\n\n**What Analytics shows**\n- **Timeline** — Sends (and sometimes opens/replies) over time (e.g. last 7 or 30 days).\n- **By campaign** — Which campaigns sent how many emails and their performance.\n- **By inbox** — Which inboxes sent how many; useful for balancing load and warmup.\n- **Best send times** — If available, when your audience tends to open or reply.\n\nUse Analytics for trends, comparing campaigns, and deciding when to send and which inboxes to use.\n\n**How to use them:** **Daily** — Check Dashboard for sent count, replies, and alerts. **Weekly** — Check Analytics for trends and campaign/inbox performance; adjust daily limits or send times if needed. **Before scaling** — Use Analytics to confirm inboxes and campaigns are healthy before increasing volume."
+  },
+  {
+    "slug": "use-sending-behavior-tracking-improve-deliverability",
+    "questions": [
+      "How to Use Sending Behavior (Tracking) to Improve Deliverability",
+      "What is Sending Behavior?",
+      "Tracking send volume",
+      "Improve deliverability",
+      "Sending Behavior Tracking",
+      "Spread sends over time",
+      "Balance inboxes sending",
+      "Send volume distribution"
+    ],
+    "answer": "### How to Use Sending Behavior (Tracking) to Improve Deliverability\n\n**Sending Behavior** (or **Tracking**) in Pigeon shows how you’re sending over time: volume, distribution by hour, by inbox, and by campaign. It helps you spot patterns that can hurt deliverability (e.g. sending too much at once or from one inbox only) so you can adjust and improve inbox placement. Open it from **Sending Behavior** or **Tracking** in the sidebar.\n\n**What you see** — **Charts** (sends over time, e.g. last 7 days, by day and hour). **By inbox** (which inboxes sent how many; balance sending across inboxes). **By campaign** (which campaigns sent how many; avoid one campaign dominating). **Insights** — Some plans show tips (e.g. \"Spread sends across more hours\" or \"Reduce peak rate\").\n\n**How to improve deliverability**\n1. **Spread sends** — If most emails go out in one hour, providers may treat it as bulk. Use **daily limit** and **send time window** in campaigns to spread sends across the day.\n2. **Balance inboxes** — If one inbox sends much more than others, add more inboxes or rotate senders so no single inbox is overloaded.\n3. **Stay within warmup** — For warming inboxes, keep volume within the recommended limits shown in Warmup and Inbox Accounts.\n4. **Use the data** — Check Sending Behavior regularly (e.g. weekly); if you see spikes or imbalance, adjust campaign limits or send windows.\n\nUse **Sending Behavior** (Tracking) to see send volume and distribution; spread sends over time and across inboxes to improve deliverability."
+  },
+  {
+    "slug": "understand-sending-by-inbox-and-campaign",
+    "questions": [
+      "How to Understand Sending by Inbox and by Campaign",
+      "Sending by inbox",
+      "Sending by campaign",
+      "Analytics by inbox campaign",
+      "Balance volume inboxes",
+      "Which inbox sent how many",
+      "Campaign send breakdown"
+    ],
+    "answer": "### How to Understand Sending by Inbox and by Campaign\n\nSeeing **sending by inbox** and **by campaign** helps you balance load (so no single inbox or campaign is overloaded), stay within warmup limits, and fix issues when one campaign or inbox underperforms. You can see this in **Analytics** and **Sending Behavior** (Tracking).\n\n**Sending by inbox** — In **Sending Behavior** or **Analytics**, look for a breakdown **by inbox** (e.g. inbox A sent X, inbox B sent Y). Use it to: balance volume across inboxes so no one inbox sends too much; check that warming inboxes stay within limits; see which inboxes are most used so you can add more if needed.\n\n**Sending by campaign** — In **Analytics** or **Campaigns**, you can see per-campaign stats: how many emails each campaign sent, over what period, and sometimes opens/replies. Use it to: compare campaign performance; see which campaigns are active and how much they send; pause or adjust campaigns that send too much or underperform.\n\n**Where to find it** — **Analytics** (sidebar) often has \"By campaign\" and \"By inbox\" views or filters. **Sending Behavior** / **Tracking** (sidebar) shows send volume; switch or filter by inbox or campaign if the UI offers it. **Campaigns** — each campaign’s detail page may show sent count and basic stats. **Inbox Accounts** — may show \"sent today\" per inbox."
+  },
+  {
+    "slug": "configure-compliance-settings-spam-words-links-unsubscribe",
+    "questions": [
+      "How to Configure Compliance Settings (Spam Words, Links, Unsubscribe)",
+      "How do I set compliance settings?",
+      "Spam words list",
+      "Max links per email",
+      "Max images compliance",
+      "Settings Compliance",
+      "Require unsubscribe link",
+      "Compliance spam words links"
+    ],
+    "answer": "### How to Configure Compliance Settings (Spam Words, Links, Unsubscribe)\n\n**Compliance** settings in Pigeon help you avoid spam triggers: banned words, too many links or images, and missing unsubscribe links. Configuring them reduces the chance your emails are filtered or flagged. Open **Settings** (sidebar) → **Compliance** tab.\n\n**Spam words** — In **Settings → Compliance**, find **Spam words** (or \"Words to avoid\"). Enter words or phrases that often trigger spam filters (e.g. \"free\", \"guarantee\", \"act now\"), separated by commas or new lines. Save. Pigeon may warn or block templates containing these; fix templates and try again.\n\n**Max links and images** — Find **Max links per email** and **Max images per email** (e.g. 3 links, 2 images). Set limits that match best practices (fewer links and images often perform better and look less like spam). Save. Templates that exceed these limits may be rejected or flagged.\n\n**Require unsubscribe link** — Find **Require unsubscribe link** (or similar). Turn it **on** so every template or campaign must include the unsubscribe placeholder. Save. This keeps you compliant with CAN-SPAM and similar rules.\n\n**After changing compliance** — Review **Templates**; remove spam words and add unsubscribe if required. Use **Templates → Template Guide** for the correct unsubscribe placeholder. New templates will be checked against these settings before save or launch."
+  },
+  {
+    "slug": "set-up-notification-preferences-replies",
+    "questions": [
+      "How to Set Up Notification Preferences for Replies",
+      "How do I get notified when someone replies?",
+      "Reply notifications",
+      "Notification preferences",
+      "Settings Notifications",
+      "Email when contact replies",
+      "Turn on reply notifications"
+    ],
+    "answer": "### How to Set Up Notification Preferences for Replies\n\nWhen contacts **reply** to your campaign emails, you want to know quickly so you can respond. Pigeon can send you **notifications** (e.g. by email to your account email) when a reply arrives. You control this in **Settings → Notifications**.\n\n**Where to set them** — **Settings** (sidebar) → **Notifications** tab → find **Notification Preferences** or **Reply notifications** (or similar).\n\n**What you can turn on** — **Reply notifications**: when a contact replies to a campaign email, Pigeon can send you an email (to the address you signed up with) or show an in-app alert. Turn this **on** for every reply, or **off** to check the Inbox manually. Other notification types (e.g. campaign completed, alerts) may be listed; enable or disable each as you prefer.\n\n**How notifications are sent** — Notifications go to your **account email** (the one you use to log in). Make sure that address is correct in **Settings → Account**. If you turn on reply notifications, you’ll get an email or in-app notice when a new reply appears in the Inbox; you can then open the Inbox and reply from your email client."
+  },
+  {
+    "slug": "manage-security-active-sessions",
+    "questions": [
+      "How to Manage Security and Active Sessions",
+      "Where do I see active sessions?",
+      "Revoke session",
+      "Active sessions Security",
+      "Settings Security",
+      "Log out other devices",
+      "Change password",
+      "Manage logged in devices"
+    ],
+    "answer": "### How to Manage Security and Active Sessions\n\nYou can review **active sessions** (devices or browsers where you’re logged in) and manage **security** (e.g. password) from **Settings**. Open **Settings** (sidebar) → **Security** tab.\n\n**Active sessions** — In **Settings → Security**, find **Active sessions** (or \"Sessions\"). You’ll see a list of sessions: device/browser, location (if available), and last active time. The **current session** is usually marked. For any other session, click **Revoke** or **Log out** to end it; the user will need to log in again on that device. Use this if you lost a device or see a session you don’t recognize.\n\n**Password and account security** — **Change password**: if the option is available, use it to set a new password (strong, unique). **Account email**: your login email is often in **Settings → Account**; change it there if your plan allows; notifications and password reset go to that email.\n\n**Best practices:** Revoke sessions you no longer use (e.g. old phones or shared computers). If you see an unknown session, revoke it and change your password. Keep your account email up to date so you receive security and reply notifications."
+  },
+  {
+    "slug": "update-billing-subscription",
+    "questions": [
+      "How to Update Billing and Subscription",
+      "How do I update billing?",
+      "Change payment method",
+      "Update subscription",
+      "Settings Billing",
+      "Change plan upgrade downgrade",
+      "Cancel subscription",
+      "View plan and billing"
+    ],
+    "answer": "### How to Update Billing and Subscription\n\nYou can view your **subscription**, **plan**, and **billing details** (and update payment method or plan) from **Settings**. Open **Settings** (sidebar) → **Billing** tab.\n\n**What you see** — **Current plan** (name and what it includes: inboxes, campaigns, etc.). **Subscription status** (Active, trial, cancelled, or past due). **Billing details** (payment method on file, e.g. card last four digits, next billing date, and billing history or invoices if available).\n\n**Updating payment method** — In **Settings → Billing**, find **Payment method** or **Update card**. Click to add or update your card (or other payment method). You may be taken to a secure payment form. Save; future charges use the new method.\n\n**Changing plan** — Find **Change plan**, **Upgrade**, or **Downgrade**. Select the plan you want; confirm. You may be charged or credited prorated amounts. After the change, your new limits (e.g. inboxes, campaigns) apply immediately.\n\n**Cancelling or pausing** — For **cancel** or **pause**, look for **Cancel subscription** or **Pause** in Billing. Follow the steps; access may continue until the end of the billing period. For **refunds**, check the refund policy (e.g. **Refund** in the auth or footer) and contact support if needed."
+  },
+  {
+    "slug": "why-gmail-connection-fails-how-to-fix",
+    "questions": [
+      "Why Your Gmail Connection Fails and How to Fix It",
+      "Gmail connection fails",
+      "Why can't I connect Gmail?",
+      "Fix Gmail connection",
+      "Invalid credentials Gmail",
+      "OAuth credentials not set",
+      "Redirect URI mismatch",
+      "Gmail connection troubleshooting",
+      "Connect Gmail not working"
+    ],
+    "answer": "### Why Your Gmail Connection Fails and How to Fix It\n\nWhen **Connect Gmail** or adding a Gmail account fails in Pigeon, it’s usually due to credentials, security settings, or plan limits. Here are the most common causes and fixes.\n\n**1. Invalid credentials (App Password)** — Symptom: \"Invalid credentials\" or \"Authentication failed\". **Fix:** Use an **App Password**, not your normal Gmail password. In Google Account → Security → 2-Step Verification → App passwords, generate a new App Password for Mail / Other (Pigeon) and paste it into Pigeon (Settings → Integrations → Gmail → Connect via App Password). Ensure 2-Step Verification is on; without it, App Passwords aren’t available.\n\n**2. Google OAuth credentials not set** — Symptom: \"Google OAuth credentials not set\" or you can’t use \"Connect with Google\". **Fix:** An admin must add **Google Client ID** and **Client Secret** in Pigeon (Settings → Integrations → Gmail). See our guide on setting up Google Client ID and Secret. After they’re saved, try Connect with Google again.\n\n**3. Redirect URI mismatch (OAuth)** — Symptom: After signing in with Google, \"Redirect URI mismatch\" or \"Error 400\". **Fix:** In Google Cloud Console, the **Authorized redirect URI** for your OAuth client must match **exactly** the URI shown in Pigeon when you add credentials (Settings → Integrations → Gmail). Copy the URI from Pigeon and paste it into Google Cloud; don’t type it by hand. Then try connecting again.\n\n**4. Plan limit reached** — Symptom: \"You have reached the Gmail limit for your plan\". **Fix:** Your plan allows only a certain number of Gmail accounts. Disconnect an unused Gmail in Settings → Integrations → Gmail, or upgrade your plan.\n\n**5. App not verified (OAuth)** — Symptom: Google shows \"This app isn’t verified\". **Fix:** For testing, choose **Advanced** → **Go to Pigeon (unsafe)** to continue. For production, consider submitting your app for Google verification."
+  },
+  {
+    "slug": "redirect-uri-mismatch-fix-google-oauth-errors",
+    "questions": [
+      "Redirect URI Mismatch: How to Fix Google OAuth Errors",
+      "Redirect URI mismatch",
+      "Error 400 redirect_uri_mismatch",
+      "Fix redirect URI Google OAuth",
+      "Authorized redirect URI copy from Pigeon",
+      "Google OAuth redirect URI",
+      "Where to get redirect URI?",
+      "OAuth redirect URI fix"
+    ],
+    "answer": "### Redirect URI Mismatch: How to Fix Google OAuth Errors\n\nWhen you use **Connect with Google** (OAuth) in Pigeon, Google redirects the user back to your app after sign-in. The **redirect URI** is the URL Google sends them to. If that URL doesn’t **exactly** match one of the **Authorized redirect URIs** in your Google Cloud OAuth client, Google shows an error (e.g. \"Redirect URI mismatch\" or \"Error 400: redirect_uri_mismatch\").\n\n**Why it happens** — The URI in Google Cloud was typed by hand and has a typo or wrong path; or it uses http instead of https (or wrong domain/port); or Pigeon’s callback URL changed and Google wasn’t updated.\n\n**How to fix it**\n1. **Get the exact URI from Pigeon** — **Settings** → **Integrations** → **Gmail** → open the form where you enter **Google Client ID** and **Client Secret** (or \"Add your Google OAuth credentials\"). On that page, Pigeon shows the **Authorized redirect URI** you must use. Copy it exactly (including https, domain, and path).\n2. **Update Google Cloud Console** — Go to [Google Cloud Console](https://console.cloud.google.com/) → **APIs & Services** → **Credentials** → click your **OAuth 2.0 Client ID** (Web application). Under **Authorized redirect URIs**, add the URI you copied from Pigeon (or replace the wrong one). No extra spaces or characters. Save.\n3. **Try again** — In Pigeon, click **Connect with Google** again. Sign-in and redirect should complete without the mismatch error.\n\n**Important:** Copy from Pigeon; don’t type. The URI must match character for character. If you have multiple environments (e.g. staging vs production), each has its own redirect URI; add each one in Google Cloud if you use both."
+  },
+  {
+    "slug": "best-practices-inbox-warmup-before-sending-campaigns",
+    "questions": [
+      "Best Practices for Inbox Warmup Before Sending Campaigns",
+      "Warmup best practices",
+      "When to warmup before campaign",
+      "Inbox warmup before sending",
+      "Start warmup early",
+      "Respect warmup limits",
+      "Warmup then campaign",
+      "Ready before full volume"
+    ],
+    "answer": "### Best Practices for Inbox Warmup Before Sending Campaigns\n\nSending a lot from a **new or cold inbox** can hurt deliverability; providers may treat it as spam. **Warmup** gradually builds sender reputation so your real campaigns are more likely to land in the inbox. Follow these practices for best results.\n\n**Start warmup early** — Add new Gmail or SMTP inboxes in **Inbox Accounts**, then go to **Warmup** and **start warmup** for each new inbox. Don’t launch large campaigns from an inbox that’s still **Warm up required** or early **Warming**. Wait until status is **Ready** (or follow the recommended limits for warming inboxes).\n\n**Respect warmup limits** — While an inbox is **Warming**, Pigeon (or your plan) may suggest a maximum daily send. Stay at or below that so the warmup curve isn’t disrupted. Use **Inbox Accounts** and **Warmup** to see progress; only increase campaign volume when the inbox is ready.\n\n**Use multiple inboxes wisely** — Spreading volume across several warmed inboxes is better than overloading one. Add more inboxes and use **sender rotation** in campaigns (round-robin or random). For small lists, fewer inboxes can be easier to manage and still safe if they’re fully warmed.\n\n**Don’t pause and rush** — If you **pause** warmup, resume when ready; don’t send at full volume as soon as you resume. Let warmup continue to **Ready** before scaling campaigns. Avoid big bursts from a single inbox; use **daily limits** and **send time windows** in campaigns to spread sends.\n\n**Monitor and adjust** — Check **Sending Behavior** (Tracking) and **Analytics** for send volume per inbox. If one inbox sends much more than others, balance by adding more inboxes or adjusting campaign sender selection. If you get **Alerts** about deliverability or reputation, slow down or pause campaigns and ensure warmup is complete for the affected inboxes."
+  },
+  {
+    "slug": "use-get-started-checklist",
+    "questions": [
+      "How to Use the Get Started Checklist",
+      "Where is Get Started?",
+      "Get Started checklist",
+      "Quick Start Checklist",
+      "Step by step setup",
+      "Domains inboxes contacts templates campaigns",
+      "Onboarding guide",
+      "Get Started sidebar"
+    ],
+    "answer": "### How to Use the Get Started Checklist\n\nThe **Get Started** page in Pigeon is a guided checklist that walks you through the main steps to send your first campaign: domains, inboxes, warmup, contacts, templates, and campaigns. Use it when you’re new or when you want to confirm you haven’t missed a step. Open it from **Get Started** in the sidebar.\n\n**Where to find it** — Click **Get Started** in the sidebar (often near the top or under a welcome section). You’ll see sections such as: Before You Start, Domains, Inbox Accounts, Warmup, Contacts, Templates, Campaigns, A/B Testing, Inbox (Replies), Dashboard & Analytics, Alerts, Settings & Support, and a **Quick Start Checklist**.\n\n**How to use it** — Work through the sections in order. Each section explains what to do (e.g. add a domain, verify it, add inboxes, start warmup, import contacts, create a template, create a campaign). Use the **links** to jump to the right pages (Domains, Inbox Accounts, Contacts, Templates, Campaigns, Settings, etc.). The **Quick Start Checklist** at the end summarizes the main tasks; tick them off as you go: domain verified, inbox(es) added and warmed, contacts imported, template created, campaign launched.\n\n**When to use it** — **First time:** follow Get Started from top to bottom. **Refresher:** if you add a new domain or inbox later, open Get Started and jump to the relevant section. **Troubleshooting:** if something is missing (e.g. \"No inboxes\" when creating a campaign), the checklist reminds you what to set up first."
+  },
+  {
+    "slug": "understanding-alerts-deliverability-system-notifications",
+    "questions": [
+      "Understanding Alerts: Deliverability and System Notifications",
+      "What are Alerts?",
+      "Where do I see Alerts?",
+      "Deliverability alerts",
+      "System notifications",
+      "Alert types warning error",
+      "Fix domain inbox warmup alerts",
+      "Alerts sidebar"
+    ],
+    "answer": "### Understanding Alerts: Deliverability and System Notifications\n\n**Alerts** in Pigeon are notifications about **deliverability** and **system** issues: e.g. a domain or inbox problem, a campaign issue, or a recommendation to act. They help you fix problems before they affect your sending. Open **Alerts** from the sidebar.\n\n**Where to see Alerts** — Click **Alerts** in the sidebar. You’ll see a list of alerts (often newest first). Each has a **type** (e.g. success, warning, error, info), a **message**, and a **date**. Some alerts may also appear on the **Dashboard** or as a badge on the Alerts item (e.g. unread count).\n\n**Types of alerts** — **Success**: something completed (e.g. domain verified, campaign finished). **Warning**: something to watch (e.g. warmup progress low, high bounce rate). **Error**: something failed (e.g. inbox connection failed, domain verification failed). **Info**: general information or tips.\n\n**What to do** — **Read the message** (it usually explains what happened and which resource is affected). **Take action**: e.g. fix DNS if domain verification failed; reconnect or fix credentials if an inbox failed; pause a campaign or improve warmup for a deliverability warning. **Mark as read** (if available) to track what you’ve handled. You can **delete** old alerts to keep the list clean.\n\n**Deliverability vs system** — Deliverability alerts relate to domains, inboxes, warmup, bounces, or reputation; act on these so your emails keep landing in the inbox. System alerts relate to the app (e.g. maintenance, feature changes); read for context; no action may be needed."
+  },
+  {
+    "slug": "understanding-gmail-sending-limits-oauth-vs-app-password",
+    "questions": [
+      "Understanding Gmail Sending Limits: OAuth vs App Password",
+      "Gmail sending limits",
+      "OAuth vs App Password limits",
+      "How many emails per day Gmail?",
+      "500 per day OAuth 100 App Password",
+      "Gmail daily limit",
+      "OAuth 500 App Password 100"
+    ],
+    "answer": "### Understanding Gmail Sending Limits: OAuth vs App Password\n\nGoogle applies **daily sending limits** to each Gmail account. If you exceed them, emails may bounce or your account can be restricted. Pigeon respects these limits. The limit depends on **how** you connect: OAuth (sign-in with Google) or App Password.\n\n**OAuth (Connect with Google) — ~500 per day** — When you connect Gmail via **OAuth** (Settings → Integrations → Gmail → Connect with Google), you use the Gmail web/API channel. For **personal Gmail** (@gmail.com), Google typically allows around **500 recipients per day** per account. This is the higher limit and is best for outreach volume.\n\n**App Password — ~100 per day** — When you connect via **App Password** (Settings → Integrations → Gmail → Connect via App Password), Pigeon uses SMTP/IMAP. For personal Gmail, Google typically allows around **100 recipients per day** per account. Use this when you prefer not to use OAuth.\n\n**What Pigeon does** — **Per-inbox limits:** you can set a daily limit per inbox (e.g. 50). We never send more than your configured limit or Google’s cap. **New inboxes:** for inboxes newer than 7 days or near their daily cap, we use a safer sending pattern. **Reset time:** per-inbox limits reset at **midnight UTC**. Plan your campaign daily limits and send windows accordingly.\n\n**Tips:** Prefer **OAuth** if your plan supports it for higher daily volume per Gmail. Use **multiple Gmail accounts** (within your plan limit) and spread volume. Start with a **low daily limit** (e.g. 50) and increase gradually; Google may adjust limits based on your sending behaviour."
+  },
+  {
+    "slug": "create-full-campaign-ai-campaign-studio-prompt-to-launch",
+    "questions": [
+      "How to Create a Full Campaign with AI Campaign Studio (From Prompt to Launch)",
+      "Create campaign from prompt AI",
+      "AI Campaign Studio prompt to launch",
+      "Full campaign with AI",
+      "Describe campaign AI creates it",
+      "Prompt to launch campaign",
+      "AI generate and launch campaign"
+    ],
+    "answer": "### How to Create a Full Campaign with AI Campaign Studio (From Prompt to Launch)\n\n**AI Campaign Studio** lets you go from a short description to a **launched campaign** in one flow. You pick a contact list, describe your outreach (e.g. \"cold outreach to SaaS founders about time savings\"), and the AI generates templates and builds the campaign. You can then edit, set schedule and daily limit, and launch.\n\n**Step 1: Open AI Campaign Studio** — Click **AI Campaign Studio** in the sidebar (chat-style or form).\n\n**Step 2: Choose audience** — Select the **contact list** for this campaign. The AI uses only merge variables that exist on that list (e.g. {{first_name}}, {{company}}). Create a new list under **Contacts** first if needed.\n\n**Step 3: Describe your campaign** — Enter a **prompt** (e.g. \"Cold email sequence for B2B SaaS founders, 3 steps: intro, value prop, soft CTA. Focus on saving time.\"). Optionally add **links to include** or **additional details**. Click **Generate** or **Create campaign**. The AI produces one or more email templates and a sequence (subject + body per step, with delays).\n\n**Step 4: Review and edit** — Review **subject** and **body** for each step. Edit wording, merge variables, or add an unsubscribe line. Run **compliance check** (spam words, link count) and fix any issues. Confirm **sequence order** and **delays** between steps.\n\n**Step 5: Set schedule and daily limit** — Set **timezone** and **send time window** (e.g. 9:00–17:00). Set **daily limit** (e.g. 50/day). Choose **sending inboxes** (Gmail or SMTP); use only **Ready** (or allowed) inboxes.\n\n**Step 6: Launch** — Click **Launch** or **Start campaign**. Pigeon creates the campaign and starts sending. Monitor under **Campaigns** and **Inbox** for replies."
+  },
+  {
+    "slug": "ai-campaign-studio-chat-commands-create-edit-campaigns",
+    "questions": [
+      "AI Campaign Studio: Chat Commands to Create or Edit Campaigns",
+      "AI Campaign Studio chat commands",
+      "Edit campaign via chat",
+      "Change daily limit timezone chat",
+      "Natural language edit campaign",
+      "Chat create campaign",
+      "AI Campaign Studio edit existing campaign"
+    ],
+    "answer": "### AI Campaign Studio: Chat Commands to Create or Edit Campaigns\n\nIn **AI Campaign Studio** you can use **natural language** to create a new campaign or **edit** an existing one (e.g. change name, daily limit, timezone, or follow-up delay). The AI interprets your instruction and updates the campaign or creates it.\n\n**Creating a campaign via chat** — Open **AI Campaign Studio**, select your **contact list**, and describe what you want (e.g. \"Create a 3-step cold outreach campaign for SaaS founders\"). The AI generates templates and sequence. You can then say e.g. \"Set daily limit to 30\" or \"Use timezone America/New_York\" before launching. When ready, **Launch** the campaign.\n\n**Editing an existing campaign via chat** — If you have an **existing campaign** in context (e.g. you opened it or selected it), you can give instructions like: \"Change the daily limit to 50\"; \"Set timezone to Europe/London\"; \"Increase follow-up delay to 3 days\"; \"Rename this campaign to Q2 Outreach\". The AI returns only the **fields to change** (e.g. daily_limit, timezone, follow_up_delay_days, name). Pigeon applies these updates. Changes take effect for future sends; already-queued emails may still use the previous settings.\n\n**What can be updated** — **Name**, **daily_limit**, **follow_up_delay_days**, **timezone**. You cannot change contact list or contact IDs via these chat commands; use the campaign edit page for that."
+  },
+  {
+    "slug": "set-up-ai-llm-providers-ai-campaign-studio",
+    "questions": [
+      "How to Set Up AI (LLM) Providers for AI Campaign Studio",
+      "How do I set up AI/LLM for Campaign Studio?",
+      "OpenAI API key Pigeon",
+      "LLM provider setup",
+      "Settings Integrations AI LLM",
+      "Add OpenAI API key",
+      "AI Campaign Studio no LLM configured",
+      "Configure AI provider"
+    ],
+    "answer": "### How to Set Up AI (LLM) Providers for AI Campaign Studio\n\n**AI Campaign Studio** generates email templates and campaign content using an **AI/LLM provider** (e.g. OpenAI). For the Studio to work, at least one provider must be configured in Pigeon. You do this in **Settings → Integrations** (or the AI/LLM section).\n\n**Where to configure** — **Settings** (sidebar) → **Integrations** tab → find **AI** or **LLM** or **AI Campaign Studio**. You’ll see options to add or edit **LLM configs**: provider (e.g. OpenAI), API key, and optionally model name.\n\n**Step 1: Get an API key** — For **OpenAI**: sign up at [OpenAI](https://platform.openai.com/), go to API keys, create a key, and copy it. For other providers (if supported): follow that provider’s docs for an API key or endpoint.\n\n**Step 2: Add the config in Pigeon** — In Settings → Integrations → AI/LLM, click **Add** or **Add LLM config**. Select **Provider** (e.g. OpenAI). Enter your **API key** (paste; the app stores it securely and doesn’t show it again). If there’s a **Model** field, choose the model (e.g. gpt-4o-mini). Save. The config appears in the list and can be used by AI Campaign Studio.\n\n**Step 3: Use in AI Campaign Studio** — Open **AI Campaign Studio** and generate a template or campaign. If multiple configs exist, you may be able to **choose which LLM** to use. If you see \"No LLM configured\" or generation fails, go back to Settings → Integrations and add or check your API key.\n\n**Troubleshooting:** Generation fails — ensure the API key is valid and has credits. Rate limits — wait and try again or use a different model."
+  },
+  {
+    "slug": "understanding-plan-limits-inboxes-campaigns-gmail-accounts",
+    "questions": [
+      "Understanding Your Plan Limits: Inboxes, Campaigns, and Gmail Accounts",
+      "What are my plan limits?",
+      "Plan limits inboxes campaigns Gmail",
+      "Max Google accounts",
+      "Max inboxes max campaigns",
+      "Where do I see plan limits?",
+      "Settings Billing limits",
+      "Hit limit upgrade"
+    ],
+    "answer": "### Understanding Your Plan Limits: Inboxes, Campaigns, and Gmail Accounts\n\nYour Pigeon **plan** defines the maximum number of **inboxes**, **campaigns**, and **Gmail (Google) accounts** you can use. Staying within these limits keeps your account in good standing and avoids upgrade prompts when you hit a cap.\n\n**Where to see limits and usage** — **Dashboard** often shows usage vs limit (e.g. inboxes used, campaigns, domains). **Settings → Billing** shows your current plan and limits (e.g. max Google accounts, max inboxes, max campaigns). **Campaigns** — if you’re at the campaign limit, **New campaign** may show an upgrade prompt. **Settings → Integrations → Gmail** shows how many Gmail accounts you have vs the plan limit (e.g. \"2 / 5 Google accounts\").\n\n**Common limits** — **max_google_accounts**: how many Gmail accounts you can connect; if 0, your plan doesn’t include Gmail (SMTP only). **Inboxes**: total sending inboxes (Gmail + SMTP). **Campaigns**: maximum campaigns (active + paused + draft). **Warmup**: whether warmup is included.\n\n**What happens at the limit** — **Gmail**: you can’t add another until you upgrade or remove one. **Inboxes**: same. **Campaigns**: you must upgrade or pause/delete a campaign to create a new one.\n\n**Tips:** Check **Get Started** and **Pricing** for your plan’s limits. Use **Dashboard** and **Settings → Billing** to track usage so you can plan upgrades or clean up unused resources."
+  },
+  {
+    "slug": "per-inbox-daily-limits-reset-time-new-inboxes",
+    "questions": [
+      "How Per-Inbox Daily Limits Work (Reset Time, New Inboxes)",
+      "Per-inbox daily limit",
+      "When do inbox limits reset?",
+      "Midnight UTC reset",
+      "Sent today inbox",
+      "New inbox safer sending",
+      "Inbox daily limit reset",
+      "Per inbox limit how it works"
+    ],
+    "answer": "### How Per-Inbox Daily Limits Work (Reset Time, New Inboxes)\n\nEach **sending inbox** in Pigeon can have a **daily send limit** (e.g. 50 emails per day). This protects deliverability by capping how much one inbox sends in 24 hours. Pigeon also applies a **safer pattern** for new or at-cap inboxes.\n\n**Reset time** — Per-inbox limits **reset at midnight UTC** every day. After reset, the \"sent today\" count for that inbox goes back to 0 and the inbox can send again up to its daily limit. Your **campaign** daily limit and **send time window** (e.g. 9–17 in your timezone) still apply; we only send during that window and never exceed the campaign or per-inbox cap.\n\n**New inboxes (<7 days)** — For inboxes **newer than 7 days**, Pigeon uses a **safer sending pattern**: we avoid maxing out the daily limit and may use longer gaps between sends. This helps build reputation. Once the inbox is older and warmed (e.g. status **Ready**), you can rely on the full daily limit within your campaign settings.\n\n**Near daily cap** — When an inbox is **near its daily cap** (e.g. 48/50 sent today), we may slow or stop using it for the rest of the day and use other inboxes in the rotation. After midnight UTC, that inbox is available again.\n\n**Where you see this** — **Inbox Accounts**: each inbox shows **Sent today** (or similar). **Campaigns**: the campaign’s **daily limit** is the total across all selected inboxes; we distribute sends and respect each inbox’s per-inbox limit and reset. **Sent tooltip**: on campaign or inbox views, the (?) or info icon explains rotation, human-like timing, and daily limits."
+  },
+  {
+    "slug": "campaign-daily-limit-vs-per-inbox-limits",
+    "questions": [
+      "Campaign Daily Limit vs Per-Inbox Limits: How They Work Together",
+      "Campaign daily limit vs per-inbox",
+      "How do campaign and inbox limits work together?",
+      "Two types daily limits",
+      "Campaign limit total per inbox limit",
+      "Both limits enforced"
+    ],
+    "answer": "### Campaign Daily Limit vs Per-Inbox Limits: How They Work Together\n\nWhen you run a campaign, two limits apply: the **campaign daily limit** (total emails per day for that campaign) and the **per-inbox daily limit** (max each inbox can send per day). Pigeon enforces **both** so you never exceed either.\n\n**Campaign daily limit** — Set when you create or edit a campaign (e.g. 100 emails per day). This is the **total** that campaign can send in one day across **all** selected inboxes. We spread sends across the send time window (e.g. 9–17) and rotate across inboxes (round-robin or random).\n\n**Per-inbox daily limit** — Each **inbox** has its own daily cap (e.g. 50 per day), set in Inbox Accounts or when adding the inbox. No single inbox will send more than its per-inbox limit in one day (reset at midnight UTC). If you have 2 inboxes with 50 each and a campaign limit of 100, we can send up to 100 that day (50 + 50). If one inbox already sent 50, we use only the other until the next day.\n\n**How they work together** — We **never** send more than the **campaign** daily limit in one day. We **never** send more than each inbox’s **per-inbox** limit in one day. So effective daily send = min(campaign limit, sum of available per-inbox capacity). Example: campaign 200, two inboxes 50 each → we send at most 100 that day (50 + 50).\n\n**Tips:** Set **campaign** limit to match your goals; set **per-inbox** limits to protect each inbox’s reputation. Use enough inboxes so that the sum of their per-inbox limits is at least your campaign limit if you want to hit the campaign cap every day."
+  },
+  {
+    "slug": "view-campaign-stats-start-pause-campaign",
+    "questions": [
+      "How to View Campaign Stats and Start or Pause a Campaign",
+      "Where do I see campaign stats?",
+      "Campaign sent opened replied",
+      "Start campaign",
+      "Pause campaign",
+      "Resume campaign",
+      "Campaign detail page",
+      "View campaign performance"
+    ],
+    "answer": "### How to View Campaign Stats and Start or Pause a Campaign\n\n**Where to see campaign stats** — **Campaigns** (sidebar) → click a **campaign** in the list (or open from the Dashboard). You land on the **campaign detail** page. There you see: **Sent** (how many emails sent), **Opened** (if tracking is on), **Replied**, **Open rate** / **Reply rate**, **Status** (e.g. Running, Paused, Completed, Draft), and **Health score** (if your plan shows it).\n\n**Start a campaign** — On the campaign detail page, if the campaign is **Draft** or **Paused**, you’ll see **Start** or **Resume**. Click it and confirm if prompted. The campaign begins sending according to its schedule and daily limit; status changes to **Running**.\n\n**Pause a campaign** — On the campaign detail page, if the campaign is **Running**, click **Pause**. Confirm. The campaign stops sending; recipients who already got some emails won’t get the next steps until you resume. Status changes to **Paused**. You can **Resume** later from the same page.\n\n**Other actions** — **Edit**: change name, contact list, inboxes, sequence, daily limit, send window. Some changes apply only to future sends. **Contacts**: view or change the campaign’s audience (contact list). **Actions**: depending on your plan, other actions (e.g. duplicate, archive) may appear."
+  },
+  {
+    "slug": "view-change-campaign-audience-contact-list",
+    "questions": [
+      "How to View or Change a Campaign's Audience (Contact List)",
+      "How do I change campaign audience?",
+      "Campaign contact list",
+      "Change contact list campaign",
+      "View campaign audience",
+      "Campaign Contacts tab",
+      "Switch list for campaign"
+    ],
+    "answer": "### How to View or Change a Campaign's Audience (Contact List)\n\n**Where to see the campaign’s audience** — **Campaigns** → open a campaign (click its name or row). On the campaign detail page, look for **Contacts**, **Audience**, or **Contact list** — or open the **Contacts** tab/subpage for that campaign (e.g. **Campaigns → [Campaign name] → Contacts**). You’ll see which **contact list** is used and how many contacts are in it; you may also see a list of contacts or a preview.\n\n**Change the contact list** — If the campaign is still **Draft** or hasn’t started, you can often **change the contact list** from the campaign edit page (Campaigns → Edit). Select a different list and save. Only contacts in the new list will receive the campaign. If the campaign has **already started**, changing the list may affect only **future** sends (recipients who haven’t received any email yet). Already-sent or in-progress recipients are usually not removed. Check the in-app wording when you change the list.\n\n**Add or remove contacts** — To **add** contacts to the audience, add them to the **contact list** that the campaign uses (Contacts → open that list → Import or add contacts). The campaign will then include them in future sends (subject to schedule and limits). To **exclude** someone, remove them from that contact list or add them to **Manual Block / Unblock** (Contacts → Manual Block / Unblock) so they never receive campaigns."
+  },
+  {
+    "slug": "what-is-replyflow-how-to-set-up-campaigns",
+    "questions": [
+      "What Is ReplyFlow and How to Set It Up for Campaigns",
+      "What is ReplyFlow?",
+      "How do I set up ReplyFlow?",
+      "ReplyFlow campaign",
+      "Where replies go",
+      "Default reply-to ReplyFlow",
+      "ReplyFlow step campaign"
+    ],
+    "answer": "### What Is ReplyFlow and How to Set It Up for Campaigns\n\n**ReplyFlow** in Pigeon is how **replies** to your campaign emails are handled: where they’re delivered (reply-to address) and how you can read and manage them inside Pigeon (e.g. in the **Inbox** tab). Setting it up ensures replies go to the right place and appear in your Inbox.\n\n**Where to set ReplyFlow** — When you **create or edit a campaign** (Campaigns → New or Edit), one of the steps is **ReplyFlow** (or Reply-To / Reply to address). There you choose: **Use default** (reply-to from **Settings → Integrations**); **Specific Gmail** (replies to a chosen connected Gmail); **Specific IMAP** (replies to an IMAP mailbox you configured in Settings → Integrations → Reply-To IMAP).\n\n**Default reply-to (Settings)** — **Settings** → **Integrations** → **Reply-To** or **Campaign replies** / **Default reply-to**. Set the default (e.g. a Gmail account or an IMAP config). Save. New campaigns use this unless you override per campaign.\n\n**Per-campaign override** — In the campaign wizard, go to the **ReplyFlow** step. Select **Specific Gmail** or **Specific IMAP** and pick the mailbox you want for this campaign. Save the campaign. Replies to that campaign go to that address and, if it’s a connected Gmail or configured IMAP, they appear in **Inbox**.\n\n**Why it matters** — So you **receive** replies in one place (Gmail or IMAP) and see them in Pigeon Inbox. So **Pigeon can match** replies to the correct campaign (via headers)."
+  },
+  {
+    "slug": "manage-warmup-send-templates",
+    "questions": [
+      "How to Manage Warmup Send Templates",
+      "What are warmup send templates?",
+      "Warmup templates",
+      "Manage warmup templates",
+      "Warmup template subject body",
+      "Create warmup template",
+      "Warmup Manage templates"
+    ],
+    "answer": "### How to Manage Warmup Send Templates\n\n**Warmup** in Pigeon sends a controlled volume of emails from your inboxes to build reputation. The **content** of those warmup emails is defined by **warmup send templates**: subject and body that the system uses when sending warmup messages. You manage these under **Warmup → Manage templates** (or Warmup templates).\n\n**Where to find them** — **Warmup** (sidebar) → **Manage templates** (or **Warmup templates**). You’ll see a list of warmup send templates; each has a name, subject, and body (and possibly a status).\n\n**Create a warmup template** — On the Warmup templates page, click **New** or **Create template**. Enter a **name** (e.g. \"Default warmup\") and the **subject** and **body** for the warmup emails. The content is usually neutral (e.g. \"Warmup message\") so recipients (often internal or partner addresses) know it’s warmup. Save. The new template is available for warmup; you may need to assign it to an inbox or it becomes the default depending on your plan.\n\n**Edit or delete** — **Edit**: open a template and change name, subject, or body. Save; warmup uses the updated content for new sends. **Delete**: remove a template you no longer need. Ensure no inbox is currently using it, or assign another template first.\n\n**Use with warmup** — When you **start warmup** for an inbox (Warmup page), you may be able to choose which warmup template to use. Select the one you created or the default. Warmup sends are automatic; you don’t run campaigns from the warmup template — it’s only for the warmup process."
+  },
+  {
+    "slug": "use-template-prompts-ai-generated-emails",
+    "questions": [
+      "How to Use Template Prompts for AI-Generated Emails",
+      "What are Template Prompts?",
+      "Template Prompts AI",
+      "Copy prompt for AI Campaign Studio",
+      "Templates Template Prompts",
+      "Prompt ideas generate email",
+      "Use template prompt generate"
+    ],
+    "answer": "### How to Use Template Prompts for AI-Generated Emails\n\n**Template Prompts** (under **Templates** in the sidebar) are pre-written **prompt ideas** you can copy and use in **AI Campaign Studio** to generate email templates. They give you a starting point so you don’t have to write the prompt from scratch (e.g. \"Cold outreach to SaaS founders\" or \"Follow-up after no reply\").\n\n**Where to find them** — **Templates** (sidebar) → **Template Prompts** (or **Prompts**). You’ll see a list of prompts: each has a name, description, and the full **markdown/text** of the prompt.\n\n**How to use a prompt** — **Copy** the prompt text (Copy button or select and copy). Go to **AI Campaign Studio**. **Paste** the prompt into the description/prompt field (or adapt it with your audience and details). Select your **contact list** and click **Generate**. The AI produces a template (subject + body) based on that prompt and your list’s merge variables. Edit the result if needed, run compliance check, then save as a template or use in a campaign.\n\n**Tips:** Combine a Template Prompt with **links** or **additional details** in AI Campaign Studio for more tailored copy. Use **Templates → Template Guide** for merge variables and compliance (unsubscribe, spam words) so the generated template is compliant."
+  },
+  {
+    "slug": "understanding-activity-feed-sends-opens-clicks-replies",
+    "questions": [
+      "Understanding the Activity Feed: Sends, Opens, Clicks, and Replies",
+      "What is the Activity feed?",
+      "Activity feed sends opens clicks",
+      "Where is Activity?",
+      "Recent activity timeline",
+      "See opens clicks replies",
+      "Activity page"
+    ],
+    "answer": "### Understanding the Activity Feed: Sends, Opens, Clicks, and Replies\n\nThe **Activity** page in Pigeon shows **recent activity** across your campaigns and inboxes: sends, opens, link clicks, and replies. It gives you a single timeline of what’s happening so you can see engagement and troubleshoot.\n\n**Where to find it** — Click **Activity** in the sidebar (if your plan includes it). You’ll see a list of events, newest first. Each event usually shows: **type** (send, open, click, reply), **contact** or **email**, **campaign** or **inbox**, and **time** (e.g. \"2 minutes ago\").\n\n**Event types** — **Send**: an email was sent from one of your campaigns (to a contact). **Open**: a recipient opened the email (if open tracking is enabled). **Click**: a recipient clicked a link in the email (if click tracking is enabled). **Reply**: a recipient replied to a campaign email; the reply may also appear in **Inbox**.\n\n**How to use it** — **Monitor engagement**: see opens and clicks to judge subject lines and content. **Spot replies**: quick view of who replied; then go to **Inbox** for the full thread. **Debug**: confirm that sends are happening and that opens/clicks are recorded (if tracking is on).\n\n**Limits** — The feed may show only the last N events (e.g. 50). For full analytics, use **Analytics** and **Sending Behavior** (Tracking)."
+  },
+  {
+    "slug": "contact-support-create-support-ticket",
+    "questions": [
+      "How to Contact Support and Create a Support Ticket",
+      "How do I contact support?",
+      "Create support ticket",
+      "Help support",
+      "Support Tickets",
+      "New ticket",
+      "Report issue",
+      "Where do I get help?"
+    ],
+    "answer": "### How to Contact Support and Create a Support Ticket\n\nPigeon offers **Support** (tickets) so you can ask questions, report issues, or request features. You create and manage tickets from **Support** in the sidebar (or **Tickets**).\n\n**Where to find Support** — Click **Support** (or **Tickets**) in the sidebar. You’ll see your **ticket list**: open, in progress, resolved, closed. You can open an existing ticket or create a new one.\n\n**Create a new ticket** — On the Support/Tickets page, click **New ticket** or **Create ticket**. Enter a **subject** (short title) and **message** (describe your issue or question in detail). If there are fields for **priority** (e.g. Low, Medium, High, Urgent) or **category**, fill them in. Submit. The ticket is created and appears in your list with status **Open**. Support will respond via the ticket (you may get an email notification).\n\n**What to include in your message** — **What you did** (e.g. \"I tried to connect Gmail via OAuth\"). **What happened** (e.g. \"I see 'Redirect URI mismatch'\"). **What you expected** (e.g. \"I expected to be redirected back to Pigeon\"). **Screenshots or IDs** — if helpful, attach a screenshot or mention campaign/domain/inbox ID (no passwords or API keys).\n\n**Manage tickets** — **Open** a ticket to read replies and add follow-up messages. **Status** may change to In progress, Resolved, or Closed. You can reopen or add a comment if the issue persists."
+  },
+  {
+    "slug": "add-new-inbox-daily-limit-bulk-add-auto-warmup",
+    "questions": [
+      "How to Add a New Inbox: Daily Limit, Bulk Add, and Auto Warmup",
+      "How do I add a new inbox?",
+      "Add inbox daily limit",
+      "Bulk add inboxes",
+      "Auto warmup",
+      "Inbox Accounts Add Inbox",
+      "Set daily limit new inbox",
+      "SMTP bulk add auto warmup"
+    ],
+    "answer": "### How to Add a New Inbox: Daily Limit, Bulk Add, and Auto Warmup\n\n**Where to add a new inbox** — **Inbox Accounts** (sidebar) → **Add Inbox** or **New**, or **Inbox Accounts → New** (or **inboxes/new**) if you have a dedicated page. You’ll choose **Gmail** or **SMTP** and then fill in the details.\n\n**Gmail** — **Connect with Google** (OAuth) or **Connect via App Password** (same as in Settings → Integrations → Gmail). After connecting, the account appears in Inbox Accounts. You can set a **daily limit** for that inbox in inbox settings if the page allows.\n\n**SMTP (domain inbox)** — Select **SMTP** and your **verified domain**. Enter **email address** (e.g. sales@yourcompany.com), **SMTP host**, **port**, **username**, **password** (or API key). **Daily limit**: set how many emails this inbox can send per day (e.g. 50); we use this and reset at midnight UTC. **Bulk add**: if the page has **Bulk** mode, you can add multiple SMTP inboxes at once (e.g. paste a list of usernames or emails); each gets the same SMTP host/port/credentials and daily limit unless you override. **Auto warmup**: if your plan includes warmup, enable **Auto warmup** so this inbox starts warming as soon as it’s added; otherwise, start warmup manually from the **Warmup** page. Save. New inboxes appear in **Inbox Accounts** and may show status **Warm up required** or **Warming**.\n\n**After adding** — Check **Inbox Accounts** for status and **Sent today**. Use **Warmup** to start or monitor warmup. When status is **Ready**, use the inbox in campaigns."
+  },
+  {
+    "slug": "bulk-add-smtp-inbox-accounts",
+    "questions": [
+      "How to Bulk Add SMTP Inbox Accounts",
+      "How do I bulk add SMTP inboxes?",
+      "Bulk add SMTP",
+      "Add multiple SMTP inboxes at once",
+      "Bulk SMTP same domain",
+      "List of addresses bulk add",
+      "Bulk add mode Inbox Accounts"
+    ],
+    "answer": "### How to Bulk Add SMTP Inbox Accounts\n\nIf you have many **SMTP inboxes** on the same domain and same provider (same host, port, credentials pattern), you can **bulk add** them in one go instead of adding each inbox one by one. This saves time when onboarding many addresses (e.g. sales1@, sales2@, ...).\n\n**Where to find bulk add** — **Inbox Accounts** → **Add Inbox** or **New** (or **inboxes/new**). Select **SMTP** and your **verified domain**. Look for **Bulk** or **Bulk add** mode (e.g. a toggle or tab: Single vs Bulk). Switch to **Bulk**.\n\n**How to bulk add** — Enter the **SMTP host**, **port**, **username**, and **password** (or API key) that apply to all inboxes. Some providers use the same password for all; others use per-address credentials — follow your provider’s docs. In the bulk section, enter the **list of email addresses or usernames** (e.g. one per line: sales1@yourcompany.com, sales2@yourcompany.com, or just sales1, sales2 if the domain is already set). Set a **daily limit** per inbox (e.g. 50) if the form allows (it may apply to all in the batch). If available, enable **Auto warmup** for the new inboxes. Click **Add** or **Create**. Pigeon creates one inbox per line/entry. They appear in **Inbox Accounts**; check for any that failed (e.g. invalid address or credentials).\n\n**After bulk add** — Go to **Inbox Accounts** and **Warmup** to start warmup for the new inboxes (or they may auto-start if you enabled Auto warmup). Set or adjust **daily limits** per inbox in inbox settings if needed."
+  },
+  {
+    "slug": "domain-verification-failed-common-fixes-spf-dkim-mx",
+    "questions": [
+      "Domain Verification Failed: Common Fixes (SPF, DKIM, MX)",
+      "Domain verification failed",
+      "Why did domain verification fail?",
+      "Fix SPF DKIM MX",
+      "DNS records exact values",
+      "Merge SPF record",
+      "Domain verification troubleshooting",
+      "Verification fails DNS"
+    ],
+    "answer": "### Domain Verification Failed: Common Fixes (SPF, DKIM, MX)\n\n**Domain verification** in Pigeon checks that the right **DNS records** (SPF, DKIM, MX) are present for your domain. If verification fails, it’s usually because a record is missing, wrong, or not yet propagated. Fix the records and try **Verify** again.\n\n**Check the exact values** — In **Domains**, select your domain and open **DNS records** or **Verification**. Pigeon shows the **exact** Type, Name/Host, and **Value** you must add. Copy them exactly — no extra spaces, no typos. At your **DNS provider** (e.g. Cloudflare, GoDaddy, Namecheap), open DNS management for this domain and compare each record.\n\n**SPF (TXT)** — Only **one SPF (TXT) record** per domain (or subdomain) is allowed. If you already have an SPF record, you must **merge** Pigeon’s include (e.g. `include:sendgrid.net` or similar) into your existing SPF value. Do not create two separate SPF TXT records. Format is usually: `v=spf1 include:... ~all` or `-all`. Add Pigeon’s include inside the same string.\n\n**DKIM (TXT)** — DKIM is usually one or more **TXT** records with a specific **name** (e.g. `pigeon._domainkey` or what Pigeon shows) and a long **value**. Copy name and value exactly. Some providers want the value in one line; others allow multiple lines — follow the provider’s UI.\n\n**MX (if required)** — If Pigeon asks for **MX** records (e.g. for receiving), add the **priority** and **value** (e.g. `mx.sendgrid.net`) as shown. Don’t remove existing MX records if you need them for receiving email elsewhere; you may need to add Pigeon’s MX with a lower priority or adjust according to your setup.\n\n**Propagation** — DNS changes can take **minutes to 48 hours** to propagate. If you just added records, wait 15–30 minutes and click **Verify** again. If it still fails, double-check values and try again later."
+  },
+  {
+    "slug": "understanding-campaign-inbox-health-scores",
+    "questions": [
+      "Understanding Campaign and Inbox Health Scores",
+      "What is health score?",
+      "Campaign health score",
+      "Inbox health score",
+      "What affects health score?",
+      "Health score deliverability",
+      "Green amber red health"
+    ],
+    "answer": "### Understanding Campaign and Inbox Health Scores\n\nPigeon may show a **health score** (e.g. 0–100) for **campaigns** and **inboxes**. This score reflects how well the campaign or inbox is doing from a **deliverability and reputation** perspective: sending pattern, bounce/complaint signals, warmup state, and similar factors. A higher score is better.\n\n**Where you see it** — **Campaigns** list or **campaign detail**: a campaign may have a health score badge or tooltip. **Inbox Accounts** or **Warmup**: an inbox may show a health or reputation indicator. **Health score tooltip**: hover or click the (?) or info icon next to the score to see a short explanation of what affects it.\n\n**What affects the score** — **Sending volume**: sending too much too fast (especially from new or cold inboxes) can lower the score. **Warmup**: inboxes that are **Ready** or well warmed tend to have better scores; **Warm up required** or **Warning** can reduce it. **Bounces and complaints**: high bounce or spam complaint rates can lower the score. **Consistency**: steady, human-like sending (daily limits, send windows, rotation) tends to support a good score.\n\n**What to do** — **Green / high**: keep doing what you’re doing; stay within daily limits and send windows. **Amber / medium**: review Sending Behavior and warmup; consider lowering daily limit or pausing campaigns until warmup improves. **Red / low**: reduce sending from that campaign or inbox, ensure warmup is running or complete, and fix any bounce/complaint issues (e.g. list hygiene, block list)."
+  },
+  {
+    "slug": "add-multiple-steps-follow-up-delays-campaign",
+    "questions": [
+      "How to Add Multiple Steps and Follow-up Delays to a Campaign",
+      "How do I add follow-up steps?",
+      "Campaign sequence steps",
+      "Add step template delay",
+      "Follow-up delay 2 days 5 days",
+      "Email sequence steps",
+      "Add step campaign",
+      "Delay between follow-ups"
+    ],
+    "answer": "### How to Add Multiple Steps and Follow-up Delays to a Campaign\n\nA **campaign** in Pigeon is an **email sequence**: one or more **steps** (emails) sent to each contact. The **first** step is usually sent when the contact enters the campaign (or when the campaign runs); **follow-up** steps are sent after a **delay** (e.g. 2 days, 5 days). You add steps and set delays when creating or editing the campaign.\n\n**Where to add steps** — **Campaigns** → **New campaign** or **Edit** → open the **Email Sequence** (or **Sequence**) step/tab. You’ll see a list of steps (e.g. Step 1, Step 2). Each step has a **template** (subject + body) and a **delay** (e.g. 0 days, 2 days, 5 days).\n\n**Add a step** — Click **Add step** or **Add email** (or the + icon). Select a **template** for this step (existing or create in Templates). Set the **delay**: 0 for the first email (sends immediately when the contact is due), or e.g. 2 for \"send 2 days after the previous step.\" Delays are usually in **days**; the system schedules the next step relative to when the previous one was sent. Save. Repeat to add more follow-ups (e.g. Step 1: 0 days, Step 2: 2 days, Step 3: 5 days).\n\n**Reorder or remove** — **Reorder**: drag steps or use up/down to change the order. The first step (delay 0) is the initial email; the rest are follow-ups. **Remove**: delete a step you don’t need. Contacts who already received that step are unaffected; those who haven’t will skip it.\n\n**Best practices:** Keep the **first** step delay at **0**. Use **2–5 days** between follow-ups so you don’t look spammy. Use **merge variables** and **unsubscribe** in every template. Run **compliance check** before launching."
+  },
+  {
+    "slug": "use-spintax-email-templates",
+    "questions": [
+      "How to Use Spintax in Email Templates",
+      "What is Spintax?",
+      "How do I use Spintax?",
+      "Spintax template",
+      "{Option A|Option B}",
+      "Random variation per email",
+      "Spintax subject body",
+      "Pipe options curly braces"
+    ],
+    "answer": "### How to Use Spintax in Email Templates\n\n**Spintax** (spin syntax) lets you define **multiple options** for a word or phrase; when the email is sent, **one option is picked at random** per recipient. That way each contact gets a slightly different line (e.g. \"Hi\" vs \"Hello\" vs \"Hey\") so your copy feels more natural and less template-like. Pigeon supports Spintax in both **subject** and **body** of templates.\n\n**Syntax** — Use **pipe-separated options** inside **curly braces**: `{Option A|Option B|Option C}`. For each send, one of the options is chosen. Example: `{Hi|Hello|Hey} {{first_name}},` → one recipient gets \"Hi John,\", another \"Hello Jane,\", another \"Hey Alex,\". Subject: `{Quick question|One thing}| about {{company}}` → random first part, then the merge variable.\n\n**Where to use it** — **Subject line**: vary the opening or call-to-action (e.g. `{Re: Intro|Following up}| {{first_name}}`). **Body**: greetings, transitions, or CTAs (e.g. `{Hope you're well|Just reaching out|I wanted to connect}.`). **With merge variables**: you can mix (e.g. `{{first_name}}, {thanks|thank you} for your time.`).\n\n**Best practices:** **Don’t over-spin** — a few spins per email add variety; too many can look odd or trigger filters. **Keep options similar in length and tone** so readability and compliance (spam words, link count) stay consistent. **Test** — send a few test emails or preview with sample data to see how spins look. **Compliance:** Spintax is evaluated after merge variables. Make sure **no option** contains spam words or exceeds link/image limits (Settings → Compliance). The Template Guide and compliance check apply to the final content."
+  },
+  {
+    "slug": "duplicate-campaign",
+    "questions": [
+      "How to Duplicate a Campaign",
+      "How do I duplicate a campaign?",
+      "Copy campaign",
+      "Duplicate campaign",
+      "Campaigns duplicate",
+      "Create copy of campaign",
+      "Same settings new campaign"
+    ],
+    "answer": "### How to Duplicate a Campaign\n\n**Duplicating** a campaign creates a **copy** with the same settings (contact list, sequence, inboxes, daily limit, send window, reply-to). You can then change the name, tweak the sequence or audience, and launch it as a new campaign without re-entering everything. Useful for running similar outreach to a different list or A/B testing a variant.\n\n**Where to duplicate** — **Campaigns** (sidebar) → find the campaign you want to copy → use the **Duplicate** action (e.g. from the row menu, three dots, or a Duplicate button). Click it.\n\n**What gets copied** — **Campaign name** (usually with a suffix like \"(Copy)\" or you can rename when editing). **Contact list** (you can change it when editing the duplicate). **Email sequence** (all steps: templates + delays). **Sender** (Gmail or SMTP and the same inbox selection). **Schedule** (timezone, send time window, daily limit). **ReplyFlow** (reply-to setting).\n\n**What to do after duplicating** — The new campaign appears in the list, usually in **Draft** status. Open it and **Edit** to change the name, switch the contact list, or adjust the sequence before launching. When ready, **Start** or **Launch** the campaign.\n\n**Notes:** Duplication does **not** copy **tracking data** (opens, clicks, replies) or **send history** — only the configuration. You’re subject to **plan limits** (max campaigns); if you’re at the limit, you must upgrade or pause/delete another campaign before duplicating."
+  },
+  {
+    "slug": "campaign-jobs-stop-send",
+    "questions": [
+      "Understanding Campaign Jobs and How to Stop a Send",
+      "What are campaign jobs?",
+      "How do I stop a send?",
+      "Stop running job",
+      "Campaign Actions Jobs",
+      "Cancel send",
+      "Stop job campaign",
+      "Halt campaign send"
+    ],
+    "answer": "### Understanding Campaign Jobs and How to Stop a Send\n\nWhen a campaign **runs**, Pigeon processes sends in **jobs** (batches). Each job has a status: **Pending**, **Running**, **Completed**, **Failed**, or **Cancelled**. You can see active and recent jobs on the **Campaign Actions** (or **Jobs**) page for that campaign and, if needed, **stop** a running job so no more emails go out from that batch.\n\n**Where to see jobs** — **Campaigns** → open a campaign (click its name) → **Actions** or **Jobs** (e.g. Campaigns → [Campaign name] → Actions). You’ll see a list of jobs: status, start time, progress (e.g. sent count), and actions (e.g. **Stop** for a running job).\n\n**Stop a running job** — Find the job with status **Running**. Click **Stop** (or **Cancel** / **Stop job**). Confirm if prompted. The job stops; no further emails are sent for that batch. Contacts who already received an email from that job are unaffected; those still in the queue for that job will not receive it unless a new job is started.\n\n**When to stop a job** — You launched the campaign by mistake and want to halt immediately. You noticed a wrong template, list, or inbox and want to fix the campaign before more sends. You hit a limit or got an alert and want to pause sending.\n\n**After stopping** — The campaign may still show as **Running** if other jobs are pending. **Pause** the campaign from the campaign detail page to stop all future sends. Edit the campaign (sequence, list, inboxes) as needed, then **Resume** when you’re ready, or leave it paused."
+  },
+  {
+    "slug": "edit-existing-email-template",
+    "questions": [
+      "How to Edit an Existing Email Template",
+      "How do I edit a template?",
+      "Edit email template",
+      "Change template subject body",
+      "Templates edit template",
+      "Update existing template",
+      "Template change applies to campaign"
+    ],
+    "answer": "### How to Edit an Existing Email Template\n\n**Where to edit** — **Templates** (sidebar) → Template Management → find the template you want to change → click it or **Edit** / pencil icon. You’ll open the **template editor** with the current name, subject, and body.\n\n**What you can change** — **Name**: so you can find the template easily (e.g. \"Cold outreach – intro v2\"). **Subject line**: update the subject; you can add or change merge variables (e.g. {{first_name}}, {{company}}) and Spintax. **Body**: update the email body (plain text or HTML). Keep or add merge variables and the **unsubscribe** placeholder (see Template Guide for the exact placeholder).\n\n**After saving** — **Campaigns already using this template** will send the **updated** subject and body for **future** sends (e.g. follow-up steps that haven’t been sent yet). Already-sent emails are unchanged. If you run **compliance check** (spam words, links, images), fix any issues before saving so existing and new campaigns stay compliant.\n\n**Best practices:** Don’t remove the **unsubscribe** line; it’s required for compliance. Use **Templates → Template Guide** for merge variables and compliance limits. If you want to keep the old version, **duplicate** the template first (if the option exists), then edit the copy."
+  },
+  {
+    "slug": "how-open-click-tracking-works",
+    "questions": [
+      "How warmup credit settlement works",
+      "Warmup reply based credits",
+      "When are held credits released",
+      "What happens after 48h without reply",
+      "Warmup tracking removed",
+      "Warmup credits refund rule",
+      "Shared pool credit hold",
+      "Rent warmup reply rule"
+    ],
+    "answer": "### Warmup Credit Settlement (Reply-Based)\n\nWarmup credits now settle based on **reply detection**.\n\n**How it works** — When someone rents a warmup listing, credits move to **held** first. If a **reply** is detected on that send, held credits are released to the provider. If no reply is detected within roughly **48 hours**, the renter is refunded and the held amount expires.\n\n**Important** — Warmup credit qualification no longer depends on tracking-pixel opens or click-tracking links.\n\n**Where to monitor** — Use Warmup logs and Rent credits/activity to see held, released, and refunded outcomes."
+  },
+  {
+    "slug": "understanding-pigeon-plans-pricing",
+    "questions": [
+      "Understanding Pigeon Plans and Pricing",
+      "What are Pigeon plans?",
+      "Pricing plans",
+      "Where do I see pricing?",
+      "Upgrade downgrade plan",
+      "Settings Billing plan",
+      "Plan features limits",
+      "Free Pro Premium"
+    ],
+    "answer": "### Understanding Pigeon Plans and Pricing\n\n**Where to see plans and pricing** — **Pricing page**: from the marketing site or **Pricing** in the footer/menu you can see available plans (e.g. Free, Pro, Premium), features, and price. **Settings → Billing**: inside the app you see your **current plan**, **usage** (e.g. inboxes used, campaigns, Gmail accounts), and **limits**. You can upgrade or manage subscription here (or via the link provided).\n\n**What plans typically include** — **Inboxes**: max sending inboxes (Gmail + SMTP). **Gmail (Google accounts)**: max Gmail accounts you can connect; some plans allow 0 (SMTP only). **Campaigns**: max campaigns (active + paused + draft). **Domains**: max verified domains (varies by plan). **Warmup**: whether inbox warmup is included and how many inboxes can be warmed. **Templates, contacts, analytics**: usually included; limits may apply (e.g. contact list size).\n\n**Upgrade and downgrade** — **Upgrade**: from Settings → Billing (or Pricing), choose a higher plan. You may be charged a prorated amount or at the next billing cycle. **Downgrade**: if you switch to a lower plan, you may need to stay within the new limits (e.g. remove extra inboxes or campaigns). The app or billing page will explain when the change takes effect.\n\n**Trial and refunds** — **Free trial**: some plans offer a trial; check **Get Started** or **Pricing** for eligibility. When the trial ends, you may be moved to Free or asked to subscribe. **Refunds**: see the **Refund** or **Terms** page (footer) for the refund policy."
+  },
+  {
+    "slug": "contact-import-file-size-format-duplicates",
+    "questions": [
+      "Contact Import: File Size, Format, and Duplicate Handling",
+      "What file size for import?",
+      "CSV Excel format import",
+      "Max file size 10 MB",
+      "Duplicate contacts import",
+      "How are duplicates handled?",
+      "Import file format size",
+      "Skipped updated import"
+    ],
+    "answer": "### Contact Import: File Size, Format, and Duplicate Handling\n\n**File format and size** — **Supported formats**: **.csv**, **.xlsx**, **.xls**. One row per contact; first row is usually headers (column names). **Max file size**: typically **10 MB**. If your file is larger, split it into multiple files or reduce columns/rows and import in batches. **Encoding**: use UTF-8 when possible so special characters (accents, symbols) import correctly.\n\n**Required and optional columns** — **Email** is **required**. Every row must have a valid email address; invalid or empty emails may be skipped or cause the row to fail. **Optional**: First name, last name, company, industry, location, and custom fields. Map them in the import step (Contacts → Import → map columns to Pigeon fields).\n\n**Duplicate handling** — **Same email in the file**: if you have duplicate emails in the same file, the importer may keep one and skip the rest, or update the same contact (depending on app behaviour). Check the import summary after upload for \"Imported\" vs \"Skipped\" or \"Updated.\" **Email already in the list**: when you add contacts to an **existing list**, contacts whose email is already in that list may be **skipped** (not duplicated) or **updated** (if you have update-on-import). The import result shows how many were added vs skipped. **Across lists**: the same email can exist in **different** contact lists; each list is independent. A contact is not automatically removed from another list when you import into a new list.\n\n**Tips:** **Download the example CSV** from the import page to see the recommended format and headers. **Remove invalid emails** before importing to avoid high skip counts. **Back up** important lists before large imports or overwrites."
+  },
+  {
+    "slug": "reset-password",
+    "questions": [
+      "How to Reset Your Password",
+      "Forgot password",
+      "How do I reset my password?",
+      "Reset password link",
+      "Forgot password email",
+      "Change password",
+      "Login Forgot password",
+      "Set new password"
+    ],
+    "answer": "### How to Reset Your Password\n\nIf you **forgot your password** or want to **change it** for security, use the **Forgot password** flow. Pigeon will send you an email with a link to set a new password.\n\n**Step 1: Request a reset link** — On the **Login** page, click **Forgot password?** (or the equivalent link). Enter the **email address** associated with your Pigeon account. Click **Send** or **Reset password**. If that email is in our system, you’ll receive a message with a **reset link** (valid for a limited time, e.g. 1 hour).\n\n**Step 2: Set a new password** — Open the email and click the **reset link**. You’ll be taken to a **Reset password** page (or Set new password). Enter your **new password** (and confirm it if the form has two fields). Use a strong password: mix of letters, numbers, and symbols; avoid common words. Submit. Your password is updated; you can now **log in** with the new password.\n\n**If you don’t receive the email** — Check **spam** and **promotions** folders. Ensure you entered the same email you use to log in. Wait a few minutes; delivery can be delayed. Try again once; avoid requesting many resets in a short time (rate limits may apply). If it still fails, contact **Support** (Tickets) with your account email so we can help.\n\n**After resetting** — **Log in** with your email and the **new** password. If you use **sessions** or \"Remember me,\" you may need to log in again on some devices after a password change."
+  }
+]
