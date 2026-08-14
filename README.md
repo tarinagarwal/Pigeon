@@ -1,3 +1,5 @@
+[![LGTM Security](https://api.looksgoodtomeow.in/security/badge/6a7e8a773406544f615c2db0.svg)](https://app.looksgoodtomeow.in/dashboard/security/6a7e8a773406544f615c2db0)
+
 <div align="center">
 
 <img src="pigeon-frontend-next/public/pigeon-mark.png" alt="Pigeon" width="180" />
@@ -10,7 +12,6 @@ Build contact lists, run multi-step campaigns across mailboxes you already own,
 warm them up so providers trust them, and track every open, click and reply —
 with billing, an operator console and infrastructure-as-code included.
 
-[![LGTM Security](https://api.looksgoodtomeow.in/security/badge/6a7e8a773406544f615c2db0.svg)](https://app.looksgoodtomeow.in/dashboard/security/6a7e8a773406544f615c2db0)
 [![License: MIT](https://img.shields.io/badge/License-MIT-C2410C.svg)](LICENSE)
 [![Python 3.12](https://img.shields.io/badge/Python-3.12-1A1512.svg)](https://www.python.org/)
 [![Next.js 16](https://img.shields.io/badge/Next.js-16-1A1512.svg)](https://nextjs.org/)
