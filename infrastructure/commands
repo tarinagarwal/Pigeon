@@ -1,0 +1,14 @@
+# Force-release a single instance stuck in Terminating:Wait.
+# Use script.sh to clear every stuck instance in the ASG at once.
+#
+# Replace <INSTANCE_ID> with the instance shown by:
+#   aws autoscaling describe-auto-scaling-instances \
+#     --query "AutoScalingInstances[?LifecycleState=='Terminating:Wait'].InstanceId" \
+#     --region us-east-1
+
+aws autoscaling complete-lifecycle-action \
+  --lifecycle-hook-name "pigeon-backend-production-termination-hook" \
+  --auto-scaling-group-name "pigeon-backend-production-asg" \
+  --instance-id "<INSTANCE_ID>" \
+  --lifecycle-action-result CONTINUE \
+  --region us-east-1

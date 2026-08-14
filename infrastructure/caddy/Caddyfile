@@ -1,0 +1,18 @@
+{
+    on_demand_tls {
+        ask https://api.pigeon.com/api/tracking/verify-host
+        ask_header X-Tracking-Proxy-Secret {env.TRACKING_PROXY_SHARED_SECRET}
+    }
+}
+
+:443 {
+    tls {
+        on_demand
+    }
+
+    reverse_proxy https://api.pigeon.com {
+        # Keep upstream host stable; backend routing is path-based.
+        header_up Host api.pigeon.com
+        header_up X-Forwarded-Proto https
+    }
+}
