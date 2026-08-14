@@ -739,7 +739,8 @@ body.demo-mode .product-tour-popover .driver-popover-close-btn {
    section isn't hidden behind the nav. Disabled for reduced-motion users. */
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 88px;
+  /* Clears the sticky chrome: attribution bar (~39px) + 72px nav + borders. */
+  scroll-padding-top: 124px;
 }
 
 @media (prefers-reduced-motion: reduce) {

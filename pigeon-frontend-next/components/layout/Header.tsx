@@ -5,9 +5,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
+import { DevsBazaarBar } from "@/components/layout/DevsBazaarBar";
 
 /** Public GitHub repo — open-source home of Pigeon. */
-export const GITHUB_URL = "https://github.com/tarinagarwal/pigeon";
+export const GITHUB_URL = "https://github.com/tarinagarwal/Pigeon";
 
 const NAV = [
   { name: "Features", path: "/features" },
@@ -42,9 +43,11 @@ export const Header = () => {
 
   useEffect(() => setOpen(false), [pathname]);
 
+  // Bar + nav pin together as one block, so the attribution stays visible on scroll.
   return (
-    <>
-      <header role="banner" className="sticky top-0 z-50 border-b-[3px] border-foreground bg-[hsl(var(--sb-cream))]">
+    <div className="sticky top-0 z-50">
+      <DevsBazaarBar />
+      <header role="banner" className="border-b-[3px] border-foreground bg-[hsl(var(--sb-cream))]">
         <div className="mx-auto flex h-[72px] max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link href="/" className="group flex items-center gap-2.5" aria-label="Pigeon — home">
             <Image
@@ -108,8 +111,10 @@ export const Header = () => {
         </div>
       </header>
 
+      {/* top-full anchors the panel to the bottom of the sticky block, so it stays
+          correct even when the attribution bar wraps to two lines on small screens. */}
       {open && (
-        <div className="fixed inset-0 top-[72px] z-40 bg-[hsl(var(--sb-cream))] md:hidden">
+        <div className="absolute inset-x-0 top-full z-40 h-[calc(100vh-100%)] overflow-y-auto bg-[hsl(var(--sb-cream))] md:hidden">
           <nav className="mx-auto max-w-6xl px-4 pt-6 sm:px-6">
             {NAV.map((l, i) => (
               <Link
@@ -143,6 +148,6 @@ export const Header = () => {
           </nav>
         </div>
       )}
-    </>
+    </div>
   );
 };

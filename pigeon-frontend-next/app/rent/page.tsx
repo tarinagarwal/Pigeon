@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import { DevsBazaarBar } from "@/components/layout/DevsBazaarBar";
 
 export const metadata: Metadata = {
   title: "Rent & Earn — Pigeon",
@@ -70,46 +71,50 @@ const FAQS = [
 ];
 
 function RentNav() {
+  // Bar + nav pin together as one block, matching the main site header.
   return (
-    <header className="sticky top-0 z-50 border-b-[3px] border-foreground bg-[hsl(var(--sb-cream))]">
-      <div className="mx-auto flex h-[72px] max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/rent" className="flex items-center gap-2.5">
-          <Image
-            src="/rent-mark.png"
-            alt=""
-            width={1129}
-            height={957}
-            sizes="80px"
-            priority
-            className="h-10 w-auto"
-          />
-          <span className="font-display text-[1.35rem] font-black leading-none text-foreground">
-            Rent&nbsp;&amp;&nbsp;Earn
-          </span>
-        </Link>
+    <div className="sticky top-0 z-50">
+      <DevsBazaarBar />
+      <header className="border-b-[3px] border-foreground bg-[hsl(var(--sb-cream))]">
+        <div className="mx-auto flex h-[72px] max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
+          <Link href="/rent" className="flex items-center gap-2.5">
+            <Image
+              src="/rent-mark.png"
+              alt=""
+              width={1129}
+              height={957}
+              sizes="80px"
+              priority
+              className="h-10 w-auto"
+            />
+            <span className="font-display text-[1.35rem] font-black leading-none text-foreground">
+              Rent&nbsp;&amp;&nbsp;Earn
+            </span>
+          </Link>
 
-        <div className="flex items-center gap-2 sm:gap-3">
-          <Link
-            href="/"
-            className="font-display hidden rounded-full border-[3px] border-transparent px-4 py-1.5 text-[13px] font-bold text-foreground/70 hover:border-foreground hover:text-foreground sm:block"
-          >
-            Pigeon
-          </Link>
-          <Link
-            href="/rent/login"
-            className="font-display rounded-full border-[3px] border-transparent px-4 py-1.5 text-[13px] font-bold text-foreground/70 hover:border-foreground hover:text-foreground"
-          >
-            Sign in
-          </Link>
-          <Link
-            href="/rent/signup"
-            className="font-display rounded-2xl border-[3px] border-foreground bg-primary px-5 py-2.5 text-[13px] font-bold text-primary-foreground shadow-[4px_4px_0_0_hsl(var(--foreground))] transition-transform hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_hsl(var(--foreground))]"
-          >
-            Join free
-          </Link>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Link
+              href="/"
+              className="font-display hidden rounded-full border-[3px] border-transparent px-4 py-1.5 text-[13px] font-bold text-foreground/70 hover:border-foreground hover:text-foreground sm:block"
+            >
+              Pigeon
+            </Link>
+            <Link
+              href="/rent/login"
+              className="font-display rounded-full border-[3px] border-transparent px-4 py-1.5 text-[13px] font-bold text-foreground/70 hover:border-foreground hover:text-foreground"
+            >
+              Sign in
+            </Link>
+            <Link
+              href="/rent/signup"
+              className="font-display rounded-2xl border-[3px] border-foreground bg-primary px-5 py-2.5 text-[13px] font-bold text-primary-foreground shadow-[4px_4px_0_0_hsl(var(--foreground))] transition-transform hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_hsl(var(--foreground))]"
+            >
+              Join free
+            </Link>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+    </div>
   );
 }
 
