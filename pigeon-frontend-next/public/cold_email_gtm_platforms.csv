@@ -1,0 +1,39 @@
+﻿#,Platform,Website,Category,Deliverability / GTM Claim,Source (article)
+1,Saleshandy,https://www.saleshandy.com,Cold Email,Unlimited email accounts with a full deliverability stack; Inbox Placement test shows Primary/Promotions/Spam landing.,saleshandy.com/blog
+2,Apollo.io,https://www.apollo.io,Cold Email + Prospecting,"210M+ contacts, 35M companies; Advanced Deliverability Tools with A/B testing and SendGrid integration.",cleverly.co
+3,Instantly.ai,https://instantly.ai,Cold Email,"Unlimited inboxes, fast warm-up; automates inbox placement testing with authentication monitoring and alerts.",instantly.ai/blog
+4,Lemlist,https://www.lemlist.com,Cold Email,Advanced email warm-up and sender rotation claimed to ensure emails never land in spam.,trulyinbox.com
+5,Smartlead,https://www.smartlead.ai,Cold Email,"Unlimited email accounts, warm-ups, unique IP rotation; scored 8/21 on Amplemarket's independent deliverability framework.",saleshandy.com / inboxwarm.ai
+6,Woodpecker,https://woodpecker.co,Cold Email,"Adaptive sending with randomization + ESP matching; ""top customers report 99% deliverability rates"" per independent user data.",salesforge.ai
+7,Mailshake,https://www.mailshake.com,Cold Email,Pioneer dedicated cold email tool (2015); evolved into multichannel sales engagement platform.,hunter.io
+8,SmartReach.io,https://smartreach.io,Cold Email + Multichannel,"Sender rotation, ESP pattern matching, automated warm-up, and spam tests across email/LinkedIn/SMS/voice.",trulyinbox.com / salescaptain.io
+9,Salesforge,https://www.salesforge.ai,Cold Email (AI),"AI writes full outbound sequences in 21 languages, not just subject-line variants.",salesforge.ai
+10,Skrapp.io,https://skrapp.io,Email Finder / Cold Email,Listed among top cold email tools for prospecting + outreach in 2026 roundups.,brevo.com
+11,GMass,https://www.gmass.co,Cold Email (Gmail-based),Turns Gmail into a cold email platform; sends personalized mass email with automated follow-ups directly from Gmail.,mailforge.ai
+12,Mailforge,https://www.mailforge.ai,Infrastructure (domains/mailboxes),Ready-to-use domains and mailboxes; handles SPF/DKIM/DMARC setup so emails land in inbox instead of spam.,mailforge.ai
+13,Amplemarket,https://www.amplemarket.com,Cold Email + Multichannel GTM,"200M+ contacts, under 3% bounce rate, claims a 21/21 score on its own deliverability framework.",amplemarket.com
+14,QuickMail,https://quickmail.io,Cold Email,Positioned as a deliverability-focused platform with built-in warm-up and inbox rotation.,salescaptain.io
+15,Outreach.io,https://www.outreach.io,Sales Engagement Platform,"Enterprise sales engagement platform with compliance guardrails: automatic opt-outs, consent tracking, regional limits.",salescaptain.io
+16,SalesLoft,https://salesloft.com,Sales Engagement Platform,"Established enterprise sales engagement platform, frequently cited alongside Outreach.io in comparisons.",brandid.app
+17,Yesware,https://www.yesware.com,Cold Email / Sales Engagement,Listed among top cold email/outreach tools for sales teams in 2026 roundups.,salescaptain.io
+18,ContactUs AI (brandID),https://brandid.app,Alternative channel (contact-form outreach),"Claims ~98% deliverability with no warm-up or domain setup, by sending via each company's own Contact Us form instead of email.",brandid.app
+19,Hunter.io,https://hunter.io,Email Finder / Cold Email,Email finding + cold email outreach tool; author discloses affiliation while reviewing competitors.,hunter.io/blog
+20,Reply.io,https://reply.io,Multichannel Sales Engagement,"Multichannel automation (email, LinkedIn, SMS, calling) at ~$89/month per user.",hypergen.io / 11x.ai
+21,MailReach,https://www.mailreach.co,Deliverability / Warm-up,"Distinguishes delivery vs. inbox placement; AI assistant diagnoses DKIM issues, reputation drops, content triggers.",mailreach.co
+22,TrulyInbox,https://www.trulyinbox.com,Email Warm-up,"Claims 98% inbox placement in independent testing; unlimited inboxes on every plan, forever-free tier.",saleshandy.com/blog
+23,Lemwarm (by Lemlist),https://www.lemlist.com/lemwarm,Email Warm-up,"20,000+ domain warm-up network; included free with all Lemlist paid plans.",saleshandy.com/blog
+24,Snov.io,https://snov.io,Cold Email + Warm-up,Offers 1 free warm-up slot with 450 one-time emails as an entry-level deliverability offer.,saleshandy.com/blog
+25,Cleanlist,https://www.cleanlist.ai,Email Verification / Enrichment,Claims 98% verified email deliverability and 85% direct-dial phone coverage via multi-provider waterfall.,cleanlist.ai
+26,MailerCheck,https://www.mailercheck.com,Email Verification,Promises a 98% minimum deliverability rate for lists cleaned through the service.,mailercheck.com
+27,InboxKit,https://www.inboxkit.com,Deliverability Guide/Tooling,"States 95%+ inbox placement is achievable, but notes real-world average across 200+ client accounts sits near 72%.",inboxkit.com
+28,EmailWarmup.com,https://emailwarmup.com,Email Warm-up,"Claims inboxing rates as high as 98% on Pro accounts, backed by a full refund guarantee.",mailtrap.io/blog
+29,Mailtrap,https://mailtrap.io,Email Testing / Deliverability,Email deliverability testing and tooling platform; publishes independent tool comparisons.,mailtrap.io/blog
+30,Artisan (Ava),https://www.artisan.co,AI SDR / GTM,"AI BDR for outbound execution across email + LinkedIn, with built-in warm-up and mailbox health monitoring.",11x.ai
+31,11x.ai (Alice & Julian),https://www.11x.ai,AI SDR / GTM,400M+ verified contacts via 21+ data providers; SOC 2 Type II & CASA Tier 3 compliance; customers report 1.5x qualified meetings.,11x.ai
+32,AiSDR,https://aisdr.com,AI SDR / GTM,"AI Strategist generates GTM campaign ideas, audiences, hooks; signal-based targeting across email/LinkedIn/phone.",11x.ai
+33,BDR.ai,https://bdr.ai,AI SDR / GTM (managed service),"AI-powered business development service combining outreach, lead-gen assets, automation, and sales expertise.",11x.ai
+34,Regie.ai,https://www.regie.ai,AI SDR / GTM,Cited as an established AI-assisted outbound alternative in 11x competitive comparisons.,devcommx.com
+35,Qualified,https://www.qualified.com,AI SDR / Inbound GTM,Positioned toward inbound speed-to-lead and pipeline qualification rather than outbound cold email.,devcommx.com
+36,Clay,https://www.clay.com,GTM Data / Workflow Engineering,"Positioned as the ""build your own GTM system"" alternative for teams wanting data/workflow ownership over a fixed tool.",devcommx.com
+37,Apollo Jason AI,https://www.apollo.io,AI Copilot (within Apollo),"Positioned as a copilot model that assists outreach on top of Apollo's existing contact database, vs. fully autonomous agents.",devcommx.com
+38,Brevo,https://www.brevo.com,Email Marketing (not cold email),"Publisher's own disclaimer: ""Brevo doesn't currently offer cold email marketing tools"" despite ranking in cold-email roundups.",brevo.com/blog
