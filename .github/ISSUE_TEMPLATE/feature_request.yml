@@ -1,0 +1,91 @@
+name: Feature request
+description: Suggest an idea or improvement for Pigeon
+title: "[Feature]: "
+labels: ["enhancement", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting an improvement. The most useful feature requests start with the
+        problem rather than the solution — it gives us room to find the best fit.
+
+        Please search existing issues first in case someone has proposed something similar.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: >
+        Describe the situation you are in and why the current behaviour falls short. Concrete
+        examples from real use are far more persuasive than hypotheticals.
+      placeholder: >
+        When a campaign hits a hard bounce, I only find out by checking the analytics page.
+        By the time I notice, I have often sent another batch from the same inbox.
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: What you would like Pigeon to do. Rough sketches, flows, or mock-ups are welcome.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: >
+        Other approaches you thought about, workarounds you currently use, or how other tools
+        handle this. Saying "none" is fine.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      description: Which part of Pigeon would this touch?
+      options:
+        - Backend API (FastAPI)
+        - Marketing site
+        - Dashboard (app)
+        - Admin panel
+        - Rent & Earn
+        - Deployment & infrastructure (Docker, Terraform, Caddy)
+        - Documentation
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Anything else — screenshots, links, related issues, scale you operate at.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Would you like to help build this?
+      description: >
+        Entirely optional, and a request is welcome either way. It just helps us know whether to
+        expect a pull request.
+      options:
+        - label: I am willing to open a pull request implementing this.
+          required: false
+        - label: I would be happy to help test it once it exists.
+          required: false
+
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Before submitting
+      options:
+        - label: I have searched existing issues and this has not already been proposed.
+          required: true
+        - label: This request contains no secrets or personal data.
+          required: true

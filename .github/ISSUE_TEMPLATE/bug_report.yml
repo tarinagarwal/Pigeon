@@ -1,0 +1,125 @@
+name: Bug report
+description: Something in Pigeon is not working as expected
+title: "[Bug]: "
+labels: ["bug", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug report.
+
+        **Found a security vulnerability?** Please do not report it here. Email
+        tarinagarwal@gmail.com privately instead — see
+        [SECURITY.md](https://github.com/tarinagarwal/Pigeon/blob/main/SECURITY.md).
+
+        Before filing, please search existing issues in case it has already been reported.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear description of the problem, including any error message you saw.
+      placeholder: When I start a campaign, the first batch sends but the second never leaves "queued".
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Numbered steps someone else can follow to see the same thing.
+      placeholder: |
+        1. Go to Campaigns and create a new campaign
+        2. Add 200 contacts and connect an SMTP inbox
+        3. Start the campaign
+        4. Wait for the second batch window
+        5. Observe that ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+      description: What you expected to happen instead.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      description: Which part of Pigeon does this involve?
+      options:
+        - Backend API (FastAPI)
+        - Marketing site
+        - Dashboard (app)
+        - Admin panel
+        - Rent & Earn
+        - Deployment & infrastructure (Docker, Terraform, Caddy)
+        - Documentation
+        - Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: deployment
+    attributes:
+      label: Deployment type
+      description: How are you running Pigeon?
+      options:
+        - Self-hosted — Docker Compose
+        - Self-hosted — other (bare metal, Kubernetes, managed platform)
+        - Hosted (pigeon.tarinagarwal.in)
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      description: >
+        Pigeon has no release tags — please give the commit SHA you are running
+        (`git rev-parse --short HEAD`). If you are on the hosted instance, say so and
+        include roughly when you saw the problem.
+      placeholder: "2b68153, or: hosted, 14 Aug ~09:30 IST"
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Anything relevant about where it runs — OS, Docker version, Python/Node version, browser.
+      placeholder: |
+        OS: Ubuntu 24.04
+        Docker: 27.3.1
+        Browser: Firefox 141
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs and screenshots
+      description: >
+        Relevant output from `docker compose logs backend`, the browser console, or the network tab.
+        **Redact all secrets** — API keys, JWTs, `ENCRYPTION_KEY`, passwords, customer email
+        addresses. This will be rendered as a code block, so no backticks are needed.
+      render: shell
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Before submitting
+      options:
+        - label: >
+            I have removed all secrets and personal data from this report — no API keys, tokens,
+            passwords, `.env` contents, or real contact email addresses.
+          required: true
+        - label: I have searched existing issues and this has not already been reported.
+          required: true
+        - label: This is not a security vulnerability (those go to tarinagarwal@gmail.com privately).
+          required: true

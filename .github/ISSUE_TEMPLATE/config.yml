@@ -1,0 +1,20 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/tarinagarwal/Pigeon/blob/main/SECURITY.md
+    about: >
+      Do not open a public issue for a security problem. Email tarinagarwal@gmail.com privately
+      with the subject prefixed [Pigeon Security]. Read our security policy for what to include
+      and what to expect.
+
+  - name: Contributing guide
+    url: https://github.com/tarinagarwal/Pigeon/blob/main/CONTRIBUTING.md
+    about: Setup instructions, project structure, required checks, and commit conventions.
+
+  - name: DevsBazaar
+    url: https://devsbazaar.com
+    about: Pigeon is a DevsBazaar product. Find our other work here.
+
+  - name: Email the maintainer
+    url: mailto:tarinagarwal@gmail.com
+    about: For questions, commercial enquiries, or abuse reports that do not fit a public issue.
