@@ -1,0 +1,22 @@
+{
+  "AICampaignStudio": {
+    "title": "What is AI Campaign Studio?",
+    "excerpt": "Mainly for automating the creation of long manual templates — turn hours of template work into minutes.",
+    "content": "AI Campaign Studio is mainly for **automating the creation of long manual templates**. Building multi-step email sequences, follow-ups, and complex outreach flows used to take hours of manual drafting, formatting, and personalization. AI Campaign Studio generates structured templates for you — turning that repetitive work into minutes. Use it when you need campaigns that would otherwise require extensive manual setup. It's ideal for scaling outreach without sacrificing quality or spending time on template creation."
+  },
+  "ReplyFlow": {
+    "title": "What is ReplyFlow?",
+    "excerpt": "Where your replies go and how to manage them.",
+    "content": "Here's how ReplyFlow works.\n\nWhen someone replies to your campaign email, you choose where that reply should go.\n\n**None (Sender Address):** Works only when Enable Receiving is turned on for your domain. Replies go to the sending inbox and are tracked automatically.\n\n**Use Default:** Uses the reply address you've set in Settings → Integrations.\n\n**Gmail:** Sends replies to your connected Gmail inbox and shows them in your Inbox tab.\n\n**IMAP:** Connect another email provider through IMAP in Settings, then select it here.\n\n**Custom Email:** Send replies to any address, but they won't be tracked in the app.\n\nSimply choose the inbox you check regularly so you never miss a reply."
+  },
+  "AddMXRecordForReceiving": {
+    "title": "Add MX record for receiving",
+    "excerpt": "How to set up email receiving and what to do if you use Hostinger or another provider.",
+    "content": "Add the MX record to your domain's DNS so we can receive mail for your domain. Then verify and we'll enable receiving.\n\n**Using Hostinger or another email provider?** Here's the deal.\n\nYou can keep email receiving enabled there and create the same address — like inbox at your domain.com — so replies go straight to that inbox. No need to change anything here.\n\nIf you want Pigeon to receive replies instead, enable receiving here and remove your provider's MX records — for example, Hostinger's. That way incoming mail gets delivered to your Pigeon inbox.\n\nOr skip DNS entirely. When creating a campaign, set a Reply-To address and send replies to any email you choose. No DNS changes needed."
+  },
+  "Warmup": {
+    "title": "How we track your inboxes",
+    "excerpt": "Engagement tracking, warning period, and warmup required.",
+    "content": "We track all your inboxes continuously. When an inbox stops giving engagement, we put it into a **warning period**. If it continues without improvement, we mark it as **warmup required**. Once you see that status on an inbox — for example on the Inboxes page — come here to the Warmup page and click the play button to start warmup for that inbox."
+  }
+}
