@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# pigeon-admin-panel
 
-## Getting Started
+The internal operator console for [Pigeon](../README.md) — Next.js 16, React 19,
+TypeScript and Tailwind CSS v4.
 
-First, run the development server:
+A [DevsBazaar](https://devsbazaar.com) product, open sourced.
+
+## What it does
+
+Administration for the whole platform: users and plans, quotas and credits,
+support tickets, the blog CMS, feature flags, audit logs, an error console, and
+billing webhook inspection.
+
+Two areas worth calling out:
+
+- **Warm-up control tower** — per-inbox target versus actual engagement rates,
+  reply quality scores, and close-network risk analytics with guidance on when
+  to promote the pairing scorer from shadow mode to enforcing.
+- **Rent & Earn administration** — marketplace users, listings, the credit
+  ledger and the withdrawal payout queue.
+
+## Development
 
 ```bash
+npm install
+cp .env.example .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Authentication
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Admins are a separate identity from platform users: their own collection, their
+own `admin_auth_token` cookie, and JWTs carrying a `type: "admin"` claim that
+user tokens can never satisfy. Two tiers exist — admin and super-admin — and
+admin management is restricted to super-admins.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+There is no self-service sign-up. Create the first admin with
+`pigeon-backend/create_admin.py`.
 
-## Learn More
+> The route guard in this app is **client-side only**. Real enforcement happens
+> in the FastAPI layer; treat the UI gate as convenience, not security.
 
-To learn more about Next.js, take a look at the following resources:
+## Environment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Variable | Purpose |
+| --- | --- |
+| `NEXT_PUBLIC_API_URL` | FastAPI base URL, including `/api` |
+| `NEXT_PUBLIC_MAIN_SITE_URL` | Public site URL, used for impersonation hand-off |
+| `FRONTEND_URL` / `REVALIDATE_SECRET` | Triggers ISR cache purges on the public site |
+| `CLOUDINARY_*` | Blog featured-image uploads |

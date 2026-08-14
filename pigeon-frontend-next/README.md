@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# pigeon-frontend-next
 
-## Getting Started
+The public site and authenticated app for [Pigeon](../README.md) — Next.js 16,
+React 19, TypeScript and Tailwind CSS v4.
 
-First, run the development server:
+A [DevsBazaar](https://devsbazaar.com) product, open sourced.
+
+## What lives here
+
+| Route group | Purpose |
+| --- | --- |
+| `app/(marketing)/` | Public site — home, features, pricing, contact |
+| `app/(auth)/` | Sign in, password reset, email verification |
+| `app/(app)/` | Authenticated dashboard — campaigns, contacts, inbox, warm-up, workflows, analytics, settings |
+| `app/rent/` | Rent & Earn marketplace portal (its own auth realm) |
+| `app/mailbox/` | Standalone webmail for provisioned mailbox owners |
+| `app/api/` | Server-side proxies, blog and plan endpoints, tracking redirects |
+
+## Development
 
 ```bash
+npm install
+cp .env.example .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Runs on http://localhost:3000 and expects the API at `NEXT_PUBLIC_API_URL`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+> `next dev` does **not** run type checking. Always run `npx tsc --noEmit`
+> before pushing — a page can render perfectly in dev and still fail the
+> production build.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Design system
 
-## Learn More
+Soft brutalism: thick 3px borders, solid offset shadows, generous rounded
+corners, and a warm pastel palette on a near-black-and-ember base. Display type
+is Rubik, body is Space Grotesk, both self-hosted through `next/font`.
 
-To learn more about Next.js, take a look at the following resources:
+Colour tokens live in `app/globals.css` as HSL triples. Always style through the
+tokens (`bg-primary`, `text-foreground`, `hsl(var(--sb-peach))`) rather than
+hardcoding hex values, so both themes stay consistent.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Environment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Variable | Purpose |
+| --- | --- |
+| `NEXT_PUBLIC_API_URL` | FastAPI base URL, including `/api` |
+| `NEXT_PUBLIC_SITE_URL` | Canonical public URL, used for SEO and sitemaps |
+| `MONGO_URL` / `DB_NAME` | Direct reads for blog and plan pages during SSR |
+| `REVALIDATE_SECRET` | Shared secret for on-demand ISR revalidation |
+| `CLOUDINARY_*` | Image uploads from the template builder |
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`NEXT_PUBLIC_*` values are baked in at **build** time, so changing them requires
+a rebuild, not just a restart.
