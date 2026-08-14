@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 24 18% 12%;
+  --card: 0 0% 100%;
+  --card-foreground: 24 18% 12%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 24 18% 12%;
+  --primary: 16 78% 44%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 30 16% 94%;
+  --secondary-foreground: 24 18% 14%;
+  --muted: 30 16% 94%;
+  --muted-foreground: 28 8% 42%;
+  --accent: 30 16% 94%;
+  --accent-foreground: 24 18% 14%;
+  --destructive: 2 65% 48%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 28 14% 89%;
+  --input: 28 14% 89%;
+  --ring: 16 78% 44%;
+  --radius: 0.5rem;
+}
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --radius: calc(var(--radius) * 1);
+}
+
+/* Dark mode is disabled to enforce light theme */
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --background: 24 14% 6%;
+    --foreground: 30 12% 94%;
+    --card: 24 13% 9%;
+    --card-foreground: 30 12% 94%;
+    --popover: 24 13% 9%;
+    --popover-foreground: 30 12% 94%;
+    --primary: 18 85% 58%;
+    --primary-foreground: 24 30% 8%;
+    --secondary: 24 11% 16%;
+    --secondary-foreground: 30 12% 95%;
+    --muted: 24 11% 16%;
+    --muted-foreground: 28 8% 62%;
+    --accent: 24 11% 16%;
+    --accent-foreground: 30 12% 95%;
+    --destructive: 4 60% 46%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 24 10% 19%;
+    --input: 24 11% 16%;
+    --ring: 18 85% 58%;
+  }
+} */
+
+body {
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
