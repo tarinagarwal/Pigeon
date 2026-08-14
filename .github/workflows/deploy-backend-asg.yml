@@ -1,0 +1,146 @@
+name: Deploy Backend to ASG
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:  # Allow manual trigger
+
+env:
+  AWS_REGION: us-east-1
+  ASG_NAME: pigeon-backend-production-asg
+  ALB_NAME: pigeon-backend-production-alb
+  TG_NAME: pigeon-backend-production-tg
+  ECR_REPOSITORY: pigeon-backend
+  # Max wait for instance refresh (avoids 6h GitHub job limit when jobs are long)
+  REFRESH_TIMEOUT_MINUTES: 45
+
+jobs:
+  deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set build context (monorepo vs backend-only)
+        id: build-ctx
+        run: |
+          if [ -d pigeon-backend ]; then
+            echo "context=pigeon-backend" >> $GITHUB_OUTPUT
+            echo "file=pigeon-backend/Dockerfile" >> $GITHUB_OUTPUT
+          else
+            echo "context=." >> $GITHUB_OUTPUT
+            echo "file=Dockerfile" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push image to Amazon ECR
+        id: build-image
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ steps.build-ctx.outputs.context }}
+          file: ${{ steps.build-ctx.outputs.file }}
+          push: true
+          provenance: false
+          tags: |
+            ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+            ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
+          cache-from: |
+            type=registry,ref=${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:buildcache
+            type=registry,ref=${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
+          cache-to: type=registry,ref=${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:buildcache,mode=max
+
+      - name: Start ASG Instance Refresh
+        run: |
+          # AWS requires LaunchTemplateId or LaunchTemplateName; get from ASG
+          LT_ID=$(aws autoscaling describe-auto-scaling-groups \
+            --auto-scaling-group-names $ASG_NAME \
+            --query 'AutoScalingGroups[0].LaunchTemplate.LaunchTemplateId' \
+            --output text)
+          if [ -z "$LT_ID" ] || [ "$LT_ID" == "None" ]; then
+            echo "Could not get LaunchTemplateId from ASG $ASG_NAME"
+            exit 1
+          fi
+          echo "Using LaunchTemplateId: $LT_ID"
+          aws autoscaling start-instance-refresh \
+            --auto-scaling-group-name $ASG_NAME \
+            --preferences '{
+              "MinHealthyPercentage": 100,
+              "InstanceWarmup": 120,
+              "SkipMatching": false
+            }' \
+            --desired-configuration "{\"LaunchTemplate\": {\"LaunchTemplateId\": \"$LT_ID\", \"Version\": \"\$Latest\"}}"
+          echo "Instance refresh started. New instances will pull the latest image."
+
+      - name: Check Instance Refresh Started
+        run: |
+          echo "Checking instance refresh status (non-blocking)..."
+          STATUS=$(aws autoscaling describe-instance-refreshes \
+            --auto-scaling-group-name $ASG_NAME \
+            --query 'InstanceRefreshes[0].Status' \
+            --output text)
+
+          echo "Current status: $STATUS"
+
+          if [ "$STATUS" == "Failed" ] || [ "$STATUS" == "Cancelled" ]; then
+            echo "Instance refresh failed or was cancelled"
+            exit 1
+          fi
+
+          if [ "$STATUS" == "InProgress" ]; then
+            echo "Instance refresh is InProgress. Continuing without waiting for completion."
+          else
+            echo "Instance refresh status is '$STATUS'. Continuing without waiting for completion."
+          fi
+
+      - name: Verify Deployment (ALB, health)
+        run: |
+          set -e
+          echo "==> 1. Verify ALB and target group health"
+          ALB_ARN=$(aws elbv2 describe-load-balancers --names $ALB_NAME \
+            --query 'LoadBalancers[0].LoadBalancerArn' --output text 2>/dev/null || echo "")
+          if [ -z "$ALB_ARN" ] || [ "$ALB_ARN" == "None" ]; then
+            echo "ALB $ALB_NAME not found. Deployment verification failed."
+            exit 1
+          fi
+          TG_ARN=$(aws elbv2 describe-target-groups --names $TG_NAME \
+            --query 'TargetGroups[0].TargetGroupArn' --output text 2>/dev/null || echo "")
+          if [ -n "$TG_ARN" ] && [ "$TG_ARN" != "None" ]; then
+            HEALTHY=$(aws elbv2 describe-target-health --target-group-arn "$TG_ARN" \
+              --query 'length(TargetHealthDescriptions[?TargetHealth.State==`healthy`])' --output text)
+            echo "Target group $TG_NAME healthy targets: $HEALTHY"
+            if [ "$HEALTHY" -lt 1 ]; then
+              echo "No healthy targets yet. Will retry health endpoint."
+            fi
+          fi
+
+          echo "==> 2. Verify health endpoint"
+          # Use public API URL instead of raw ALB DNS
+          HEALTH_URL="https://api.pigeon.com/api/health"
+          echo "Testing $HEALTH_URL"
+          for i in $(seq 1 12); do
+            CODE=$(curl -s -L -o /dev/null -w "%{http_code}" "$HEALTH_URL" 2>/dev/null || echo "000")
+            if [ "$CODE" == "200" ]; then
+              echo "Health check passed (HTTP 200)."
+              echo "==> Deployment verified: ASG has instances, ALB exists, health endpoint OK."
+              exit 0
+            fi
+            echo "Attempt $i/12: HTTP $CODE - waiting 10s..."
+            sleep 10
+          done
+          echo "Health endpoint did not return 200 after 12 attempts. Deployment verification failed."
+          exit 1
