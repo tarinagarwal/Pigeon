@@ -1,4 +1,5 @@
-[![Scanned with LGTM Security](https://api.looksgoodtomeow.in/security/banner/6a7e8a773406544f615c2db0.svg?theme=dark)](https://app.looksgoodtomeow.in/dashboard/security/6a7e8a773406544f615c2db0)
+[![Scanned with LGTM Security](https://api.looksgoodtomeow.in/security/banner/6a7e8a773406544f615c2db0.svg?theme=dark)](https://looksgoodtomeow.in)
+
 
 <div align="center">
 
