@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { DevsBazaarBar } from "@/components/layout/DevsBazaarBar";
+import { getGitHubStars } from "@/lib/github";
 
 export const metadata: Metadata = {
   title: "Rent & Earn — Pigeon",
@@ -70,11 +71,11 @@ const FAQS = [
   },
 ];
 
-function RentNav() {
+function RentNav({ stars }: { stars: number | null }) {
   // Bar + nav pin together as one block, matching the main site header.
   return (
     <div className="sticky top-0 z-50">
-      <DevsBazaarBar />
+      <DevsBazaarBar stars={stars} />
       <header className="border-b-[3px] border-foreground bg-[hsl(var(--sb-cream))]">
         <div className="mx-auto flex h-[72px] max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link href="/rent" className="flex items-center gap-2.5">
@@ -118,10 +119,12 @@ function RentNav() {
   );
 }
 
-export default function RentLandingPage() {
+export default async function RentLandingPage() {
+  const stars = await getGitHubStars();
+
   return (
     <div className="min-h-screen bg-background">
-      <RentNav />
+      <RentNav stars={stars} />
 
       {/* ── Hero ── */}
       <section className="border-b-[3px] border-foreground bg-[hsl(var(--sb-cream))]">

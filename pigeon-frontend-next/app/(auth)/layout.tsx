@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/layout/Header";
+import { getGitHubStars } from "@/lib/github";
 import { Footer } from "@/components/layout/Footer";
 import { AuthDemoGuard } from "@/components/auth/AuthDemoGuard";
 
@@ -9,14 +10,16 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export default function AuthLayout({
+export default async function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const stars = await getGitHubStars();
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <Header />
+      <Header stars={stars} />
       <div className="flex-1">
         <AuthDemoGuard>{children}</AuthDemoGuard>
       </div>

@@ -1,10 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
-import { GITHUB_URL } from "@/components/layout/Header";
+import { GITHUB_URL } from "@/lib/site";
+import { getGitHubStars } from "@/lib/github";
+import { GitHubStars } from "@/components/ui/GitHubStars";
 
 const TICKER = ["MIT LICENSED", "SELF-HOSTABLE", "NO PER-SEAT PRICING", "BRING YOUR OWN INBOXES"];
 
-export function HomeHero() {
+export async function HomeHero() {
+  const stars = await getGitHubStars();
+
   return (
     <section className="border-b-[3px] border-foreground bg-[hsl(var(--sb-cream))]">
       <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
@@ -40,9 +44,10 @@ export function HomeHero() {
                 href={GITHUB_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-display inline-flex items-center justify-center rounded-2xl border-[3px] border-foreground bg-card px-8 py-4 text-[15px] font-bold text-foreground shadow-[6px_6px_0_0_hsl(var(--foreground))] transition-transform hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-[3px_3px_0_0_hsl(var(--foreground))]"
+                className="font-display inline-flex items-center justify-center gap-2.5 rounded-2xl border-[3px] border-foreground bg-card px-8 py-4 text-[15px] font-bold text-foreground shadow-[6px_6px_0_0_hsl(var(--foreground))] transition-transform hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-[3px_3px_0_0_hsl(var(--foreground))]"
               >
-                ★ Source
+                Source
+                <GitHubStars count={stars} className="text-primary" />
               </a>
             </div>
           </div>

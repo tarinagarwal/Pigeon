@@ -6,9 +6,10 @@ import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { DevsBazaarBar } from "@/components/layout/DevsBazaarBar";
+import { GitHubStars } from "@/components/ui/GitHubStars";
+import { GITHUB_URL } from "@/lib/site";
 
-/** Public GitHub repo — open-source home of Pigeon. */
-export const GITHUB_URL = "https://github.com/tarinagarwal/Pigeon";
+export { GITHUB_URL };
 
 const NAV = [
   { name: "Features", path: "/features" },
@@ -17,7 +18,7 @@ const NAV = [
   { name: "Contact", path: "/contact" },
 ];
 
-export const Header = () => {
+export const Header = ({ stars = null }: { stars?: number | null }) => {
   const router = useRouter();
   const pathname = usePathname();
   const { isAuthenticated, user, clearDemoUser } = useAuth();
@@ -46,7 +47,7 @@ export const Header = () => {
   // Bar + nav pin together as one block, so the attribution stays visible on scroll.
   return (
     <div className="sticky top-0 z-50">
-      <DevsBazaarBar />
+      <DevsBazaarBar stars={stars} />
       <header role="banner" className="border-b-[3px] border-foreground bg-[hsl(var(--sb-cream))]">
         <div className="mx-auto flex h-[72px] max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link href="/" className="group flex items-center gap-2.5" aria-label="Pigeon — home">
@@ -141,8 +142,9 @@ export const Header = () => {
               href={GITHUB_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-display mt-3 block rounded-2xl border-[3px] border-foreground bg-card px-4 py-3.5 text-center text-[14px] font-bold text-foreground"
+              className="font-display mt-3 flex items-center justify-center gap-2 rounded-2xl border-[3px] border-foreground bg-card px-4 py-3.5 text-center text-[14px] font-bold text-foreground"
             >
+              <GitHubStars count={stars} iconClassName="text-amber-500" />
               GitHub ↗
             </Link>
           </nav>
