@@ -299,7 +299,7 @@ class BackgroundTasks:
             days_since_start = max(0, (now_utc - start_at).days)
         except Exception:
             days_since_start = 0
-        return min(7, max(1, days_since_start + 1))
+        return min(30, max(1, days_since_start + 1))
 
     def _compute_warmup_targets_for_day(
         self,
@@ -318,7 +318,7 @@ class BackgroundTasks:
         _ = prev_open_rate
         _ = prev_reply_rate
 
-        d = min(7, max(1, int(day)))
+        d = min(30, max(1, int(day)))
         goal = max(1, min(50, int(daily_limit_goal or 50)))
 
         # (baseline_daily_cap_for_goal_50, open_rate, reply_rate, phase)
