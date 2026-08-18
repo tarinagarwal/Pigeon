@@ -37,7 +37,7 @@ The product covers the whole outbound lifecycle in one system:
 ## 2. Tech stack
 
 Versions below are taken from `pigeon-backend/requirements.txt`, the two `package.json` files, the
-`Dockerfile`s, `docker-compose.yml` and `infrastructure/terraform/`.
+`Dockerfile`s and `docker-compose.yml`.
 
 ### Backend — `pigeon-backend/`
 
@@ -54,7 +54,7 @@ Versions below are taken from `pigeon-backend/requirements.txt`, the two `packag
 | HTTP clients | `httpx` · `aiohttp` · `requests` | 0.28.1 · 3.13.3 · 2.32.5 |
 | Google APIs / OAuth | `google-api-python-client` · `google-auth-oauthlib` | 2.187.0 · 1.2.4 |
 | Microsoft OAuth | `msal` | 1.31.0 |
-| AWS SDK | `boto3` (ASG lifecycle + infra routes only) | 1.42.21 |
+| AWS SDK | `boto3` (vestigial ASG drain checks; inert on GCE) | 1.42.21 |
 | Spreadsheets | `openpyxl` | 3.1.5 |
 | Support-bot RAG | `chromadb` · `sentence-transformers` · CPU `torch` · `groq` | 0.5.4 · 3.0.1 · 2.4.1 · 1.0.0 |
 | DNS / email utils | `dnspython` · `email-validator` | 2.8.0 · 2.3.0 |
@@ -93,8 +93,8 @@ API calls. No direct database access — it talks only to the FastAPI API.
 | Containers | Docker, Docker Compose v2 (`docker-compose.yml`) |
 | Database image (self-host) | `mongo:7` |
 | Edge / TLS | Caddy with `on_demand_tls` (`infrastructure/caddy/Caddyfile`) |
-| IaC | Terraform `>= 1.0`, `hashicorp/aws ~> 5.0` |
-| CI/CD | GitHub Actions (`.github/workflows/deploy-backend-asg.yml`) → ECR → ASG instance refresh |
+| Hosting | Google Compute Engine (`e2-standard-2`, `asia-south1-a`) |
+| CI/CD | GitHub Actions (`.github/workflows/deploy.yml`) → Workload Identity Federation → SSH → `infrastructure/deploy.sh` |
 
 ---
 
@@ -106,7 +106,7 @@ API calls. No direct database access — it talks only to the FastAPI API.
 ├── .env.example                  # compose-level knobs (ports, MONGO_URL, NEXT_PUBLIC_* )
 ├── README.md · SECURITY.md · CODE_OF_CONDUCT.md
 ├── .github/workflows/
-│   └── deploy-backend-asg.yml    # build → ECR → ASG instance refresh
+│   └── deploy.yml                # WIF auth → SSH to the VM → rebuild changed services
 │
 ├── pigeon-backend/               # FastAPI service (~58k LOC of Python)
 │   ├── server.py                 # app factory, lifespan, index creation, router mounting
@@ -137,9 +137,7 @@ API calls. No direct database access — it talks only to the FastAPI API.
 │
 └── infrastructure/
     ├── caddy/                    # Caddyfile + README for on-demand TLS tracking proxy
-    ├── terraform/                # AWS: VPC lookup, SG, ALB, ASG/EC2, ECR, IAM
-    ├── script.sh · commands      # ASG lifecycle-hook release helpers
-    └── update-ssm-env.sh         # push backend .env into SSM Parameter Store
+    └── deploy.sh                 # production deploy: rebuild changed services + health check
 ```
 
 ---
@@ -150,7 +148,7 @@ API calls. No direct database access — it talks only to the FastAPI API.
 
 ```
 Browser
-  → Caddy / ALB (TLS)                         443, HTTP→HTTPS
+  → Caddy (TLS)                               443, HTTP→HTTPS
   → Next.js server (pigeon-frontend-next)     React Server Components render the shell
   → browser hydrates, client components fetch `${NEXT_PUBLIC_API_URL}/...`
   → FastAPI (pigeon-backend), every path under the `/api` prefix
@@ -298,9 +296,10 @@ Two independent signals stop an instance from claiming *new* work while letting 
 finish:
 
 - the presence of the file at `INSTANCE_TERMINATING_FILE` (default `/signals/instance-terminating`),
-  written on the host by the ASG termination handler — the EC2 bootstrap creates
-  `/opt/pigeon/signals` for exactly this; and
+  which any orchestrator can write to drain this instance gracefully; and
 - a `boto3` `describe_auto_scaling_instances` check for `LifecycleState == "Terminating:Wait"`.
+  This is vestigial from the earlier AWS deployment and short-circuits on the current GCE host,
+  where `ASG_NAME` is unset.
 
 When either is true the loop logs *"Instance is terminating (draining): skipping new job claims"*
 and no further jobs are claimed. On shutdown, `lifespan` calls `background_tasks.stop()` (which
@@ -423,7 +422,7 @@ or — where marked BYO — from per-user values in `user_settings`, Fernet-encr
 | Slack | Bot pings for contact form, new ticket, new signup | `SLACK_BOT_TOKEN`, optional `SLACK_CHANNEL_CONTACT` / `_TICKET` / `_NEW_USER` |
 | Cloudflare · GoDaddy · Namecheap · Google Cloud DNS | Writing SPF/DKIM/DMARC/CNAME records into the user's zone | Per-user provider credentials (encrypted); `NAMECHEAP_CLIENT_IP` for Namecheap; a service-account JSON for Cloud DNS |
 | ChromaDB + sentence-transformers | Support-bot RAG index (persistent client under `services/support-bot/chroma_db`) | none — local, CPU-only torch |
-| AWS (ASG + IMDS) | Drain detection and the admin infrastructure routes | `ASG_NAME`, `AWS_REGION`; instance IAM role on EC2 |
+| AWS (ASG + IMDS) | Vestigial drain detection; inert unless `ASG_NAME` is set | `ASG_NAME`, `AWS_REGION` |
 | Cloudinary / ImageKit | Blog and template image hosting | `CLOUDINARY_*`, `IMAGEKIT_*` |
 | Email Infra API | External mailbox/domain provisioning | `EMAIL_INFRA_API_BASE_URL`, `EMAIL_INFRA_API_KEY`, `EMAIL_INFRA_DEFAULT_VPS_ID` |
 | IP geolocation | Region detection for currency/billing routing | `IPGEOLOCATION_API_KEY` |
@@ -493,37 +492,47 @@ Four services on one compose network:
 Next.js images take `NEXT_PUBLIC_API_URL` / `NEXT_PUBLIC_SITE_URL` as build args because
 `NEXT_PUBLIC_*` values are inlined at build time.
 
-### The hosted deployment — AWS
+### The hosted deployment — Google Compute Engine
 
-The Terraform in `infrastructure/terraform/` provisions **AWS**, not GCP:
+Production runs on a single GCE VM, `pigeon-vm` (`e2-standard-2`, 2 vCPU / 7 GB RAM, 49 GB disk)
+in **`asia-south1-a`**, project `pigeon-prod-2026`, serving `pigeon.tarinagarwal.in`.
 
-- `provider "aws"`, default region **`us-east-1`**, default `project_name = "pigeon-backend"`,
-  `environment = "production"`.
-- **EC2 in an Auto Scaling Group** (`asg_min_size` 1, `asg_max_size` 10, desired 1), default
-  instance type **`t3.small`**, Amazon Linux 2023, 30 GB root volume, launched from a launch
-  template whose user-data is `bootstrap/docker-bootstrap.sh` (installs Docker + Compose v2,
-  enables the SSM agent, creates `/opt/pigeon/signals`, pulls the backend `.env` from SSM
-  Parameter Store at `/pigeon/backend/env_b64`).
-- **An Application Load Balancer** in front (`enable_alb = true`), health-checking `/api/health`
-  on port 8000; the instance security group only accepts the app port from the ALB's security
-  group. HTTPS on the ALB is opt-in via `enable_https` + `acm_certificate_arn`.
-- **ECR** for the backend image, **IAM** instance role (so no AWS keys land on disk), an optional
-  Elastic IP, and an ASG **termination lifecycle hook** (`pigeon-backend-production-termination-hook`)
-  that holds instances in `Terminating:Wait` while in-flight jobs drain.
-- **CI/CD**: pushing to `main` triggers `.github/workflows/deploy-backend-asg.yml`, which builds the
-  backend image with Buildx (registry cache), pushes `:${{ github.sha }}` and `:latest` to ECR, and
-  starts an ASG instance refresh with a 45-minute cap.
-- **Caddy** runs separately as the TLS edge for tracking hostnames, using on-demand certificates
-  gated by the backend's verify-host endpoint (§4.4).
-- **MongoDB** is external to the instance: `MONGO_URL` points at a managed cluster
-  (`.env.example` names MongoDB Atlas as the production option); the bundled `mongo:7` service is
-  for local and self-hosted use.
+- The repository is checked out at **`/opt/pigeon`** as a git clone tracking `origin/main`. The
+  four files that are not in the repository live alongside it and are never touched by a deploy:
+  `.env`, `pigeon-backend/.env`, `docker-compose.override.yml` and `caddy/Caddyfile`.
+- **Caddy** runs as a compose service (`docker-compose.override.yml`) and is the TLS edge for both
+  the app hostname and customer tracking hostnames, using on-demand certificates gated by the
+  backend's verify-host endpoint (§4.4).
+- **MongoDB** is external to the VM: `MONGO_URL` points at a managed cluster (MongoDB Atlas in
+  production). The bundled `mongo:7` compose service is for local and self-hosted use.
 
-> The repository contains **no GCP/Compute Engine configuration**: there is no `google` Terraform
-> provider, no `gcloud` tooling, and no reference to an `e2-standard-2` instance or the
-> `asia-south1` region anywhere in the tree. Google Cloud appears only as *Google Cloud DNS*, one of
-> four supported customer DNS providers, and as Google OAuth/Gmail. If the hosted instance has since
-> migrated to GCE, that move is not reflected in this repository.
+#### CI/CD
+
+Pushing to `main` triggers [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml):
+
+1. GitHub authenticates to Google Cloud through **Workload Identity Federation**. There is no
+   service-account key in the repository; the runner exchanges a short-lived OIDC token. The
+   provider's trust condition is
+   `assertion.repository=='tarinagarwal/Pigeon' && assertion.ref=='refs/heads/main'`, so no other
+   repository, fork or branch can assume the identity.
+2. The `github-deployer` service account holds only `roles/compute.osAdminLogin` and
+   `roles/compute.viewer` — enough to SSH to the VM, and nothing else.
+3. The job SSHes in (OS Login), fetches `origin/main`, resets the working tree, and runs
+   [`infrastructure/deploy.sh`](infrastructure/deploy.sh).
+4. `deploy.sh` diffs the previous and new commit to decide which compose services actually need
+   rebuilding — `pigeon-backend/**` → `backend`, `pigeon-frontend-next/**` → `frontend`,
+   `pigeon-admin-panel/**` → `admin`, and any `docker-compose.yml` change → all three. It then
+   rebuilds only those, health-checks the backend (`/api/health`), the frontend, the admin panel
+   and the public edge, and prunes dangling images.
+
+A manual run is available via `workflow_dispatch`, whose `services` input is a fixed choice
+(`auto`, `all`, `backend`, `frontend`, `admin`) rather than a free-text string.
+
+All third-party actions are pinned to full commit SHAs, so a moved tag cannot change what runs.
+
+> **Vestigial AWS support.** `services/automation_service.py` and `routes/admin_infrastructure.py`
+> still contain `boto3` ASG drain detection (§7). It is inert on GCE — `ASG_NAME` is unset, so the
+> checks short-circuit — and remains only because the admin infrastructure routes expose it.
 
 ---
 

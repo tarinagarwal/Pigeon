@@ -70,6 +70,14 @@ for pair in "frontend:8080" "admin:8082"; do
   esac
 done
 
+# Verify the public edge (Caddy + TLS), not just the container ports.
+for i in $(seq 1 10); do
+  CODE="$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 https://pigeon.tarinagarwal.in/ || echo 000)"
+  [ "$CODE" = "200" ] && { echo "  public edge: OK"; break; }
+  [ "$i" = "10" ] && { echo "  public edge: FAILED (last HTTP $CODE)"; FAILED=1; }
+  sleep 6
+done
+
 # Reclaim space so the 49 GB disk does not fill with old layers.
 docker image prune -f >/dev/null 2>&1 || true
 

@@ -45,7 +45,7 @@ repository and self-host the entire stack — every feature is in here.
 | `pigeon-backend/` | FastAPI · Python 3.12 | The whole API — 435 endpoint handlers across 45 route modules and 47 services |
 | `pigeon-frontend-next/` | Next.js 16 · React 19 · TS | Marketing site, authenticated dashboard, Rent & Earn portal, webmail |
 | `pigeon-admin-panel/` | Next.js 16 · React 19 · TS | Internal operator console |
-| `infrastructure/` | Terraform · Caddy | Cloud provisioning and the TLS reverse proxy |
+| `infrastructure/` | Caddy · Bash | TLS reverse proxy config and the production deploy script |
 | `docker-compose.yml` | Docker | Runs the entire stack, MongoDB included |
 
 ---
@@ -233,12 +233,19 @@ The stack runs anywhere Docker does — the simplest production setup is a singl
 VM running `docker compose`, with Caddy terminating TLS in front of the three
 services and MongoDB Atlas for data.
 
-`infrastructure/terraform/` holds an optional, more elaborate AWS topology
-(EC2 in an Auto Scaling Group behind an ALB, ECR, an IAM instance role and a
-termination lifecycle hook) for running the backend at scale. It is not required
-for a single-VM deployment. `infrastructure/caddy/` holds the reverse-proxy
-configuration, including on-demand certificate issuance for customer-owned
-tracking domains.
+Production runs on a single VM: the three services under `docker compose`
+behind Caddy, with MongoDB Atlas for data. `infrastructure/caddy/` holds the
+reverse-proxy configuration, including on-demand certificate issuance for
+customer-owned tracking domains.
+
+Deployment is automatic. Pushing to `main` triggers
+[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml), which
+authenticates to Google Cloud with Workload Identity Federation — no service
+account key is stored in this repository — connects to the VM, pulls `main`,
+and runs [`infrastructure/deploy.sh`](infrastructure/deploy.sh). Only the
+services whose source actually changed are rebuilt, and the script
+health-checks the backend, frontend, admin panel and the public edge before
+reporting success.
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for the full topology, the background
 worker model and the integration map.
