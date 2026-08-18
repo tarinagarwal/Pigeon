@@ -57,7 +57,6 @@ jobs:
           gcloud compute ssh pigeon-vm \
             --zone=asia-south1-a \
             --project=pigeon-prod-2026 \
-            --tunnel-through-iap=false \
             --quiet \
             --command="set -euo pipefail
               cd /opt/pigeon
