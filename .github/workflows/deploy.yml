@@ -1,0 +1,76 @@
+name: Deploy to production
+
+# Deploys to the GCE VM (pigeon-vm, asia-south1-a) that serves
+# pigeon.tarinagarwal.in. Authentication uses Workload Identity Federation,
+# so there is no service-account key stored in this repository.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'pigeon-backend/**'
+      - 'pigeon-frontend-next/**'
+      - 'pigeon-admin-panel/**'
+      - 'docker-compose.yml'
+      - 'infrastructure/deploy.sh'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch:
+    inputs:
+      services:
+        description: 'Services to rebuild: "auto", "all", or e.g. "backend frontend"'
+        required: false
+        default: 'auto'
+
+# Never let two deploys touch the VM at once, and never cancel one midway
+# through a container rebuild.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  id-token: write   # required to mint the OIDC token for Workload Identity
+
+jobs:
+  deploy:
+    name: Build and deploy on the VM
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@c200f3691d83b41bf9bbd8638997a462592937ed  # v2
+        with:
+          workload_identity_provider: projects/652120736570/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: github-deployer@pigeon-prod-2026.iam.gserviceaccount.com
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@e427ad8a34f8676edf47cf7d7925499adf3eb74f  # v2
+
+      - name: Deploy
+        env:
+          SERVICES: ${{ github.event.inputs.services || 'auto' }}
+        run: |
+          gcloud compute ssh pigeon-vm \
+            --zone=asia-south1-a \
+            --project=pigeon-prod-2026 \
+            --tunnel-through-iap=false \
+            --quiet \
+            --command="set -euo pipefail
+              cd /opt/pigeon
+              PREV=\$(sudo git rev-parse HEAD)
+              sudo git fetch --depth=50 origin main
+              sudo git reset --hard origin/main
+              sudo bash infrastructure/deploy.sh \"\$PREV\" '${SERVICES}'"
+
+      - name: Verify the public site is serving
+        run: |
+          for i in $(seq 1 10); do
+            CODE=$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 https://pigeon.tarinagarwal.in/ || echo 000)
+            if [ "$CODE" = "200" ]; then echo "pigeon.tarinagarwal.in -> HTTP 200"; exit 0; fi
+            echo "attempt $i/10: HTTP $CODE"; sleep 10
+          done
+          echo "public site did not return 200"; exit 1
