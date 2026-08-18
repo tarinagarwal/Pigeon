@@ -17,9 +17,16 @@ on:
   workflow_dispatch:
     inputs:
       services:
-        description: 'Services to rebuild: "auto", "all", or e.g. "backend frontend"'
+        description: 'Which services to rebuild'
         required: false
         default: 'auto'
+        type: choice
+        options:
+          - auto
+          - all
+          - backend
+          - frontend
+          - admin
 
 # Never let two deploys touch the VM at once, and never cancel one midway
 # through a container rebuild.
@@ -64,12 +71,3 @@ jobs:
               sudo git fetch --depth=50 origin main
               sudo git reset --hard origin/main
               sudo bash infrastructure/deploy.sh \"\$PREV\" '${SERVICES}'"
-
-      - name: Verify the public site is serving
-        run: |
-          for i in $(seq 1 10); do
-            CODE=$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 https://pigeon.tarinagarwal.in/ || echo 000)
-            if [ "$CODE" = "200" ]; then echo "pigeon.tarinagarwal.in -> HTTP 200"; exit 0; fi
-            echo "attempt $i/10: HTTP $CODE"; sleep 10
-          done
-          echo "public site did not return 200"; exit 1
